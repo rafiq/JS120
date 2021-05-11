@@ -10,21 +10,22 @@ class LinkedList {
         this.head = null;
     }
 
-    append(val) {
-        if (this.head === null) {
-            this.head = new Node(val)
-            return;
-        }
+    // append(val) {
+    //     let curr = this.head;
 
-        let curr = this.head;
-        if (curr.next !== null) {
-            this.append(curr.next)
-        }
-        // while (curr.next !== null) {
-        //     curr = curr.next;
-        // }
-        curr.next= new Node(val);
-    }
+    //     if (curr === null) {
+    //         curr = new Node(val)
+    //         return;
+    //     }
+
+    //     // if (curr.next !== null) {
+    //     //     this.append(curr.next)
+    //     // }
+    //     while (curr.next !== null) {
+    //         curr = curr.next;
+    //     }
+    //     return curr.next = new Node(val);
+    // }
 
     print() {
         let str = "";
@@ -44,18 +45,55 @@ class LinkedList {
         }
         return false;
     }
+
+    delete(val) {
+        let curr = this.head;
+
+        while (curr.next !== null && curr.val !== val) {
+            curr = curr.next
+        }
+
+        curr = curr.next.next;
+    }
+}
+
+function deleteValue(head,target) {
+    let curr = head;
+    let prev = null;
+
+        while (curr !== null) {
+            if (curr.val === target) {
+                prev.next = curr.next;
+                // curr = curr.next
+            }
+            prev = curr;
+            curr = curr.next;
+            // console.log(curr.val)
+        }
+
+        // curr = curr.next.next;
 }
 
 let list = new LinkedList();
 
-list.append("a")
-list.append("b")
-list.append("c")
-list.append("d")
-list.append("e")
-list.append(3)
-list.append(9)
-list.append("new Node")
+let a = new Node("a")
+let b = new Node("b")
+let c = new Node("c")
+let d = new Node("d")
+let e = new Node("e")
+
+a.next = b;
+b.next = c;
+c.next = d;
+d.next = e;
+// list.append("a")
+// list.append("b")
+// list.append("c")
+// list.append("d")
+// list.append("e")
+// list.append(3)
+// list.append(9)
+// list.append("new")
 // console.log(list.head)
-list.print()
-console.log(list.contains(3))
+// list.print()
+console.log(deleteValue(a,"c"))
