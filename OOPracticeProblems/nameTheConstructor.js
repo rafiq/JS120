@@ -1,20 +1,616 @@
-class Something {
-    constructor() {
-      this.data = "Hello";
-    }
+let franchise = {
+    name: 'How to Train Your Dragon',
+    allMovies: function() {
+        // let self = this;
+      return [1, 2, 3].map(function(number) {
+        return this.name + ' ' + number;
+      });
+    },
+  };
+// franchise.call(name,allMovies)
+// franchise.allMovies = franchise.allMovies.bind(franchise,)
+  console.log(
+      franchise.allMovies()
+  )
 
-    dupData() {
-      return this.data + this.data;
-    }
+// function createStudent(name, year) {
+//     return {
+//       name: name,
+//       year: year,
+//       courses: [],
+//       info: function() {
+//         console.log(`${this.name} is a ${this.year} student`);
+//       },
 
-    static dupData() {
-      return "ByeBye";
-    }
-  }
+//       listCourses: function() {
+//         return this.courses;
+//       },
 
-  let thing = new Something();
-  console.log(Something.dupData());
-  console.log(thing.dupData());
+//       addCourse: function(course) {
+//         this.courses.push(course);
+//       },
+
+//       addNote: function(courseCode, note) {
+//         let course = this.courses.filter(course => {
+//           return course.code === courseCode;
+//         })[0];
+
+//         if (course) {
+//           if (course.note) {
+//             course.note += `; ${note}`;
+//           } else {
+//             course.note = note;
+//           }
+//         }
+
+//       },
+
+//       viewNotes: function() {
+//         this.courses.forEach(course => {
+//           if (course.note) {
+//             console.log(`${course.name} : ${course.note}`);
+//           }
+//         });
+//       },
+
+//       updateNote: function(courseCode, note) {
+//         let course = this.courses.filter(course => {
+//           return course.code === courseCode;
+//         })[0];
+
+//         if (course) {
+//           course.note = note;
+//         }
+//       },
+//     };
+//   }
+//   let school = {
+//     students: [],
+//     addStudent: function(name, year) {
+//       if (['1st', '2nd', '3rd', '4th', '5th'].indexOf(year) >= 0) {
+//         let student = createStudent(name, year);
+//         this.students.push(student);
+//         return student;
+//       } else {
+//         console.log('Invalid Year');
+//       }
+//     },
+
+//     enrollStudent: function(student, courseName, courseCode) {
+//       student.addCourse({name: courseName, code: courseCode})
+//     },
+
+//     addGrade: function(student, courseName, grade) {
+//       let course = student.listCourses().filter(course => {
+//         return course.name === courseName;
+//       })[0];
+
+//       if (course) {
+//         course.grade = grade;
+//       }
+//     },
+
+//     getReportCard: function(student) {
+//       student.listCourses().forEach(course => {
+//         if (course.grade) {
+//           console.log(`${course.name} : ${String(course.grade)}`);
+//         } else {
+//           console.log(`${course.name} : In progress`);
+//         }
+//       });
+//     },
+
+//     courseReport: function(courseName) {
+//       function getCourse(student, courseName) {
+//         return student.listCourses().filter(course => {
+//           return course.name === courseName;
+//         })[0];
+//       }
+
+//       let courseStudents = this.students.map(student => {
+//         let course = getCourse(student, courseName) || { grade: undefined };
+//         return { name: student.name, grade: course.grade };
+//       }).filter(student => student.grade);
+
+//       if (courseStudents.length > 0) {
+//         console.log(`= ${courseName} Grades=`);
+
+//         let average = courseStudents.reduce((total, student) => {
+//           console.log(`${student.name} : ${String(student.grade)}`);
+//           return total + student.grade;
+//         }, 0) / courseStudents.length;
+
+//         console.log('---');
+//         console.log(`Course Average: ${String(average)}`);
+//       }
+//     },
+//   };
+
+
+// ! My failed attempt below. I think I understand just a little bit better the difference between function factories and class objects.
+// class School {
+//     constructor(name, year) {
+//         this.name = name ;
+//         this. year = year;
+//         this.studentBody = [];
+//         this.courses = [];
+//     }
+
+//     addStudent(name,year) {
+//         const VALID_YEARS = ["1st","2nd","3rd","4th","5th"];
+
+//         if (VALID_YEARS.includes(year)) {
+//             return this.studentBody.push(new Student(name,year));
+//         } else {
+//             return "Invalid Year";
+//         }
+//     }
+
+//     enrollStudent(studentName, studentYear = "1st",targetCourse) {
+//         let course = this.courses.filter(course => {
+//             course.name === targetCourse;
+//         })[0];
+
+//         if (course) {
+//             if (!course.enrolledStudents) {
+//                 this.courses.targetCourse.enrolledStudents = [];
+//                 this.courses.targetCourse.enrolledStudents.push(new Student(studentName,studentYear));
+//             } else if (!course.enrolledStudents.filter(student => {
+//                 return student.name === studentName;
+//             })[0]) {
+//                 this.courses.targetCourse.enrolledStudents.push(new Student(studentName,studentYear));
+//             } else {
+//                 return `${this.studentName} is already enrolled in ${this.targetCourse}.`
+//             }
+//         }
+//     }
+//     addCourse(course) {
+//         return this.courses.push(course)
+//     }
+
+//     addGrade(studentName, grade, course) {
+
+//         Student.forEach(student => {
+//             if (student.name === studentName ) {
+//                 this.courses.forEach(subject => {
+//                     if (subject.name === course) {
+//                         course.grade = grade;
+//                     }
+//                 })
+//             }
+//         })
+//     }
+
+//     getReportCard(studentName) {
+//         Student.forEach(student => {
+//             if (student) {
+//                 student.courses.forEach(subject => {
+//                     if (subject.courses.name) {
+//                         console.log(`${this.name}: ${this.grade || "In Progress"}`)
+//                     }
+//                 })
+//             }
+//         })
+//     }
+
+//     courseReport(subject) {
+//         School.forEach(course => {
+//             if (course.name === subject) {
+//                 console.log(`=Math Grades=`)
+//                 let sum = 0;
+//                 let count = 0;
+//                 course.forEach(student => {
+//                     count++;
+//                     sum += student.grade;
+//                     console.log(`${student.name}:${student.grade}`)
+//                 })
+//                 console.log(`---`)
+//                 console.log(`Course Average: ${sum / count}`)
+//             } else {
+//                 console.log(`undefined`)
+//             }
+//         })
+//     }
+
+// }
+
+// class Student extends School {
+//     constructor(name,year) {
+//         super(name,year)
+//         // this.name = name;
+//         // this.year = year;
+//     }
+
+//     info() {
+//         console.log(`${this.name} is a ${this.year} student`)
+//     }
+
+//     addCourse(course) {
+//         return this.courses.push(course)
+//     }
+
+//     listCourses() {
+//         console.log( this.courses)
+//     }
+
+//     addNote(courseNumber, note) {
+//         let course = this.courses.filter(el => {
+//             return el.code === courseNumber;
+//         })[0];
+
+//         if (course) {
+//             if (course.note) {
+//                 course.note += `; ${note}`;
+//             } else {
+//                 course.note = note;
+//             }
+//         }
+//         // return this.courses[index] .courseNumber.note += note;
+//     }
+
+//     viewNotes() {
+//         this.courses.forEach(course => {
+//             if (course.note) {
+//                 console.log(`${course.name}: ${course.note}`);
+//             }
+//         })
+//         // console.log(`${this.courses.course}: ${this.note}`)
+//     }
+
+//     updateNote(courseNumber,note) {
+//         let course = this.courses.filter(course => {
+//             return course.code === courseNumber;
+//         })[0]
+
+//         if (course) {
+//             return course.note = ` ${note}`
+//         }
+//     }
+// }
+
+// //  let foo = new createStudent('Foo', '1st');
+//  let ribet = new School();
+//  ribet.addCourse({ name: 'Math', code: 101 });
+//  ribet.addCourse({ name: 'Advanced Math', code: 102 });
+//  console.log(ribet.addStudent("Foo","1st"));
+//  console.log(ribet.addStudent("Bar","5th"));
+//  console.log(ribet.addStudent("Baz","2nd"));
+//  ribet.enrollStudent("Faz","4th","Advanced Math")
+//  console.log(ribet)
+// School.addStudent("foo")
+//  ! Last exercise tests
+//  let foo = new createStudent('Foo', '1st');
+//  foo.info();
+// //  "Foo is a 1st year student"
+//  foo.listCourses();
+// //  [];
+//  foo.listCourses();
+//  [{ name: 'Math', code: 101 }, { name: 'Advanced Math', code: 102 }]
+//  foo.addNote(101, 'Fun course');
+//  foo.addNote(101, 'Remember to study for algebra');
+//  foo.viewNotes();
+// //  "Math: Fun course; Remember to study for algebra"
+//  foo.addNote(102, 'Difficult subject');
+//  foo.viewNotes();
+// //  "Math: Fun course; Remember to study for algebra"
+// //  "Advance Math: Difficult subject"
+//  foo.updateNote(101, 'Fun course');
+//  foo.viewNotes();
+//  "Math: Fun course"
+//  "Advanced Math: Difficult subject"
+
+// function objectsEqual(obj1, obj2) {
+//     if (obj1 === obj2) return true;
+//     let obj1Array = Object.entries(obj1);
+//     let obj2Array = Object.entries(obj2);
+//     if (obj1Array.length !== obj2Array.length) return false;
+
+//     return obj1Array.every((arr,idx) => {
+//         return arr[0] === obj2Array[idx][0]
+//     }) && obj1Array.every((arr,idx) => {
+//         return arr[1] === obj2Array[idx][1]
+//     });
+// }
+
+// console.log(objectsEqual({a: 'foo'}, {a: 'foo'}));                      // true
+// console.log(objectsEqual({a: 'foo', b: 'bar'}, {a: 'foo'}));            // false
+// console.log(objectsEqual({}, {}));                                      // true
+// console.log(objectsEqual({a: 'foo', b: undefined}, {a: 'foo', c: 1}));  // false
+
+// let item = {
+//     name: 'Foo',
+//     description: 'Fusce consequat dui est, semper.',
+//     price: 50,
+//     quantity: 100,
+//     discount: function(percent) {
+//         // console.log(this.price)
+//         let discount = this.price * percent / 100;
+//         let discountedPrice = this.price - discount;
+//     //   this.price -= discount;
+
+//       return discountedPrice
+//     },
+//   };
+
+// console.log(
+//    item.discount(20),   // should return 40 = 40
+//    item.discount(50),   // should return 25 = 20
+//    item.discount(25),   // should return 37.5 = 15
+// )
+// function createGreeter(name) {
+//     return {
+//       name: name,
+//       morning: 'Good Morning',
+//       afternoon: 'Good Afternoon',
+//       evening: 'Good Evening',
+//       greet: function(timeOfDay) {
+//         let msg = '';
+//         switch (timeOfDay) {
+//           case 'morning':
+//             msg += `${this.morning} ${this.name}`;
+//             break;
+//           case 'afternoon':
+//             msg += `${this.afternoon} ${this.name}`;
+//             break;
+//           case 'evening':
+//             msg += `${this.evening} ${this.name}`;
+//             break;
+//         }
+
+//         console.log(msg);
+//       },
+//     };
+//   }
+
+//  let helloVictor = createGreeter('Victor');
+//  helloVictor.greet('morning');// = Good Morning Victor
+
+// class Banner {
+//     constructor(message, maxWidth) {
+//         this.message = message;
+//         this.maxWidth = maxWidth;
+//         this.length = message.length
+//     }
+
+//     displayBanner() {
+//       console.log([this.horizontalRule(), this.emptyLine(), this.messageLine(), this.emptyLine(), this.horizontalRule()].join("\n"));
+//     }
+
+//     horizontalRule() {
+//         if (this.length > this.maxWidth) {
+//             return "+-" + "-".repeat(this.maxWidth) + "-+"
+//         } else {
+//             return "+-" + "-".repeat(this.length) + "-+"
+//         }
+//     }
+
+//     emptyLine() {
+//         if (this.length > this.maxWidth) {
+//             return "| " + " ".repeat(this.maxWidth) + " |"
+//         } else {
+//             return "| " + " ".repeat(this.length) + " |"
+//         }
+//     }
+
+//     messageLine() {
+//         let messageSegments = [];
+
+//         if (this.length > this.maxWidth) {
+//             // ! THis code almost worked until I added the substr and return value below. Not sure how to fix it. Besides, it would not have been centered anyways.
+//             for (let i = 0; i < this.message; i += this.maxWidth) {
+//                 messageSegments.push(this.message.substr(i,this.maxWidth))
+//             }
+//             return messageSegments.join("\n")// "| " + messageSegments.join("\n") + " |"
+//         } else {
+//             return `| ${this.message} |`
+//         }
+
+//     }
+//   }
+
+//   let banner1 = new Banner('To boldly go where no one has gone before.',20);
+// banner1.displayBanner();
+// // +--------------------------------------------+
+// // |                                            |
+// // | To boldly go where no one has gone before. |
+// // |                                            |
+// // +--------------------------------------------+
+// let banner2 = new Banner('');
+// banner2.displayBanner();
+// +--+
+// |  |
+// |  |
+// |  |
+// +--+
+
+
+// class Owner {
+//     constructor(ownerName) {
+//         this.ownerName = ownerName;
+//         this.pets = [];
+//     }
+
+//     addPets(pet) {
+//         this.pets.push(pet)
+//     }
+
+//     numberOfPets() {
+//         return this.pets.length;
+//     }
+
+//     printPets() {
+//         this.pets.forEach(pet => console.log(pet.info()))
+//     }
+// }
+
+// class Pet {
+//     constructor(petType,petName) {
+//         this.petType = petType;
+//         this.petName = petName;
+//     }
+//     info() {
+//         return `a ${this.petType} named ${this.petName}`;
+//     }
+// }
+
+// class Shelter {
+//     constructor() {
+//         this.owners = {};
+//         this.availablePets = [];
+//     }
+
+//     adopt(owner, pet) {
+//         owner.addPets(pet);
+//         if (!this.owners[owner.ownerName]) {
+//             this.owners[owner.ownerName] = owner;
+//         }
+//     }
+
+//     addPets(pet) {
+//         this.availablePets.push(pet)
+//     }
+
+//     printAvailablePets() {
+//         this.availablePets.forEach(pet => console.log(`The following pets are looking for a nice home:` )pet)
+//     }
+
+//     printAdoptions() {
+//         for (let name in this.owners) {
+//             console.log(`${name} has adopted the following pets:`)
+//             this.owners[name].printPets();
+//             console.log("")
+
+//         }
+//     }
+// }
+
+// let butterscotch = new Pet('cat', 'Butterscotch');
+// let pudding      = new Pet('cat', 'Pudding');
+// let darwin       = new Pet('bearded dragon', 'Darwin');
+// let kennedy      = new Pet('dog', 'Kennedy');
+// let sweetie      = new Pet('parakeet', 'Sweetie Pie');
+// let molly        = new Pet('dog', 'Molly');
+// let chester      = new Pet('fish', 'Chester');
+
+// let phanson = new Owner('P Hanson');
+// let bholmes = new Owner('B Holmes');
+
+// let shelter = new Shelter();
+// // shelter.adopt(phanson, butterscotch);
+// // shelter.adopt(phanson, pudding);
+// // shelter.adopt(phanson, darwin);
+// // shelter.adopt(bholmes, kennedy);
+// // shelter.adopt(bholmes, sweetie);
+// // shelter.adopt(bholmes, molly);
+// // shelter.adopt(bholmes, chester);
+// // shelter.printAdoptions();
+// // console.log(`${phanson.ownerName} has ${phanson.numberOfPets()} adopted pets.`);
+// // console.log(`${bholmes.ownerName} has ${bholmes.numberOfPets()} adopted pets.`);
+// shelter.addPets( butterscotch);
+// shelter.addPets( pudding);
+// shelter.addPets( darwin);
+// shelter.addPets(kennedy);
+// shelter.addPets(sweetie);
+// shelter.addPets(molly);
+// shelter.addPets(chester);
+// shelter.printAvailablePets()
+
+// class Person {
+//     constructor(name) {
+//       this.name = name;
+//       Object.assign(this,walkMixin)
+//     }
+
+//     gait() {
+//       return "strolls";
+//     }
+//   }
+
+//   class Cat {
+//     constructor(name) {
+//       this.name = name;
+//       Object.assign(this,walkMixin)
+//     }
+
+//     gait() {
+//       return "saunters";
+//     }
+//   }
+
+//   class Cheetah {
+//     constructor(name) {
+//       this.name = name;
+//       Object.assign(this,walkMixin)
+//     }
+
+//     gait() {
+//       return "runs";
+//     }
+//   }
+
+// const walkMixin = {
+//     walk() {
+//         return `${this.name} ${this.gait()} forward`
+//     }
+// }
+
+
+//   let mike = new Person("Mike");
+//   console.log(mike.walk());
+//   // "Mike strolls forward"
+
+//   let kitty = new Cat("Kitty");
+//   console.log(kitty.walk());
+//   // "Kitty saunters forward"
+
+//   let flash = new Cheetah("Flash");
+//   console.log(flash.walk());
+  // "Flash runs forward"
+
+
+// class Person {
+//     constructor(text) {
+//         this.text = text;
+//     }
+
+//     greeting(text) {
+//         console.log(text);
+//     }
+// }
+// class Shouter extends Person {
+//     constructor(text) {
+//         super(text);
+//     }
+//     greeting(text) {
+//         super.greeting(text.toUpperCase());
+//     }
+// }
+
+// let person = new Person();
+// let shouter = new Shouter();
+
+// person.greeting("Hello. It's very nice to meet you."); // Hello. It's very nice to meet you
+// shouter.greeting("Hello my friend."); // HELLO MY FRIEND.
+
+// class Something {
+
+
+//     constructor() {
+//       this.data = "Hello";
+//     }
+
+//     dupData() {
+//       return this.data + this.data;
+//     }
+
+//     static dupData() {
+//       return "ByeBye";
+//     }
+//   }
+
+//   let thing = new Something();
+//   console.log(Something.dupData());
+//   console.log(thing.dupData());
 
 // class Something {
 //     constructor() {
