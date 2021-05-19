@@ -1,17 +1,115 @@
-let franchise = {
-    name: 'How to Train Your Dragon',
-    allMovies: function() {
-        // let self = this;
-      return [1, 2, 3].map(function(number) {
-        return this.name + ' ' + number;
-      });
-    },
-  };
+function getProtoChain(obj) {
+    let result = [];
+
+    if (obj === "Object.prototype") {
+        result.push(obj.name)
+        return result;
+    }
+    else {
+        result.push(obj.name);
+        return getProtoChain(obj.__proto__)
+    };
+}
+// name property added to make objects easier to identify
+let foo = {
+    name: 'foo',
+    // result: [],
+    // ancestors: function() {
+    //     return this.result.push(this.__proto__)
+    // }
+};
+let bar = Object.create(foo);
+bar.name = 'bar';
+let baz = Object.create(bar);
+baz.name = 'baz';
+let qux = Object.create(baz);
+qux.name = 'qux';
+
+console.log(getProtoChain(qux))
+// qux.ancestors();  // returns ['baz', 'bar', 'foo', 'Object.prototype']
+// baz.ancestors();  // returns ['bar', 'foo', 'Object.prototype']
+// bar.ancestors();  // returns ['foo', 'Object.prototype']
+// foo.ancestors();  // returns ['Object.prototype']
+
+// ! The below solution was done by Juan and it uses the bind method to bind the context to the inside function before calling it.
+// function myFilter(array, func, context) {
+//     let result = [];
+//     func = func.bind(context)
+
+//     array.forEach(function(value) {
+//       if (func(value)) {
+//         result.push(value);
+//       }
+//     });
+
+//     return result;
+//   }
+
+//   let filter = {
+//     allowedValues: [5, 6, 9],
+//   }
+
+//   console.log(myFilter([2, 1, 3, 4, 5, 6, 9, 12], function(val) {
+//     return this.allowedValues.indexOf(val) >= 0;
+//   }, filter)); // returns [5, 6, 9]
+
+// ! The solution below utilizes the thisArg parameter available in most methods and passes the context into the inside function by using the call bind in the function.
+  // function myFilter(array, func, thisArg) {
+//     let result = [];
+
+//     array.forEach(function(value) {
+//       if (func.call(thisArg,value)) {
+//         result.push(value);
+//       }
+//     });
+
+//     return result;
+//   }
+
+//   let filter = {
+//     allowedValues: [5, 6, 9],
+//   }
+
+//   console.log(myFilter([2, 1, 3, 4, 5, 6, 9, 12], function(val) {
+//     return this.allowedValues.indexOf(val) >= 0;
+//   }, filter)); // returns [5, 6, 9]
+
+// ! Finally, this below solution is done by merely using an arrow function on the anonymous function which automatically binds the second function.
+// let franchise = {
+//     name: 'How to Train Your Dragon',
+//     allMovies: function() {
+//       return [1, 2, 3].map(number => {
+//         return `${this.name} ${number}`;
+//       });
+//     },
+//   };
+
+// ! in the below solution to binding fixing in JS the new variable "self" was added to take the context into the second level anonymous function
+// let franchise = {
+//     name: 'How to Train Your Dragon',
+//     allMovies: function(person) {
+//         let self = this;
+        // let self = this; ! This one is called "lexical closure"
+//       return [1, 2, 3].map(function(number) {
+//         return self.name + ' ' + number + " is not better than " + person;
+//       });
+//     },
+//   };
+// ! The below solution to the binding leaking that was occuring in this problem is now resolved with using "bind" at the end of the anonymous function
+// let franchise = {
+//     name: 'How to Train Your Dragon',
+//     allMovies: function(person) {
+        // let self = this; ! This one is called "lexical closure"
+//       return [1, 2, 3].map(function(number) {
+//         return this.name + ' ' + number + " is not better than " + person;
+//       }.bind(this));
+//     },
+//   };
 // franchise.call(name,allMovies)
 // franchise.allMovies = franchise.allMovies.bind(franchise,)
-  console.log(
-      franchise.allMovies()
-  )
+//   console.log(
+//       franchise.allMovies("Toy Story")
+//   )
 
 // function createStudent(name, year) {
 //     return {
