@@ -1,31 +1,115 @@
-function getProtoChain(obj) {
-    let result = [];
 
-    if (obj === "Object.prototype") {
-        result.push(obj.name)
-        return result;
-    }
-    else {
-        result.push(obj.name);
-        return getProtoChain(obj.__proto__)
-    };
-}
-// name property added to make objects easier to identify
-let foo = {
-    name: 'foo',
-    // result: [],
-    // ancestors: function() {
-    //     return this.result.push(this.__proto__)
-    // }
-};
-let bar = Object.create(foo);
-bar.name = 'bar';
-let baz = Object.create(bar);
-baz.name = 'baz';
-let qux = Object.create(baz);
-qux.name = 'qux';
 
-console.log(getProtoChain(qux))
+// class Person {
+//     constructor(firstName, lastName, age, gender) {
+//         this.firstName = firstName;
+//         this.lastName = lastName ;
+//         this.age = age;
+//         this.gender = gender;
+//     }
+
+//     fullName() {
+//         // console.log(`${this.firstName} ${this.lastName}`)
+//         return `${this.firstName} ${this.lastName}`
+//     }
+
+//     eat() {
+//         console.log(`Eating`)
+//     }
+
+//     communicate() {
+//         console.log(`Communicating`)
+//     }
+
+//     sleep() {
+//         console.log(`Sleeping`)
+//     }
+// }
+
+// class Doctor extends Person {
+//     constructor(firstName, lastName, age, gender, specialization) {
+//         super(firstName, lastName, age, gender)
+//         this.specialization = specialization;
+//     }
+
+//     diagnose() {
+//         console.log(`Diagnosing`)
+//     }
+// }
+
+// class Student extends Person {
+//     constructor(firstName, lastName, age, gender, degree) {
+//         super(firstName, lastName,age,gender)
+//         this.degree = degree;
+//     }
+//     study() {
+//         console.log(`Studying`)
+//     }
+// }
+// class GraduateStudent extends Student {
+//     constructor(firstName, lastName, age, gender, degree) {
+//         super(firstName, lastName,age,  gender, degree)
+//     }
+//     research() {
+//         console.log(`Researching`);
+//     }
+// }
+// let person = new Person('foo', 'bar', 21, 'gender');
+// console.log(person instanceof Person);     // logs true
+// person.eat();                              // logs 'Eating'
+// person.communicate();                      // logs 'Communicating'
+// person.sleep();                            // logs 'Sleeping'
+// console.log(person.fullName());            // logs 'foo bar'
+
+// let doctor = new Doctor('foo', 'bar', 21, 'gender', 'Pediatrics');
+// console.log(doctor instanceof Person);     // logs true
+// console.log(doctor instanceof Doctor);     // logs true
+// doctor.eat();                              // logs 'Eating'
+// doctor.communicate();                      // logs 'Communicating'
+// doctor.sleep();                            // logs 'Sleeping'
+// console.log(doctor.fullName());            // logs 'foo bar'
+// doctor.diagnose();                         // logs 'Diagnosing'
+
+// let graduateStudent = new GraduateStudent('foo', 'bar', 21, 'gender', 'BS Industrial Engineering', 'MS Industrial Engineering');
+// // logs true for next three statements
+// console.log(graduateStudent instanceof Person);
+// console.log(graduateStudent instanceof Student);
+// console.log(graduateStudent instanceof GraduateStudent);
+// graduateStudent.eat();                     // logs 'Eating'
+// graduateStudent.communicate();             // logs 'Communicating'
+// graduateStudent.sleep();                   // logs 'Sleeping'
+// console.log(graduateStudent.fullName());   // logs 'foo bar'
+// graduateStudent.study();                   // logs 'Studying'
+// graduateStudent.research();                // logs 'Researching'
+
+// // function getProtoChain(obj) {
+// //     let result = [];
+
+// //     if (obj === "Object.prototype") {
+// //         result.push(obj.name)
+// //         return result;
+// //     }
+// //     else {
+// //         result.push(obj.name);
+// //         return getProtoChain(obj.__proto__)
+// //     };
+// // }
+// // name property added to make objects easier to identify
+// let foo = {
+//     name: 'foo',
+//     // result: [],
+//     // ancestors: function() {
+//     //     return this.result.push(this.__proto__)
+//     // }
+// };
+// let bar = Object.create(foo);
+// bar.name = 'bar';
+// let baz = Object.create(bar);
+// baz.name = 'baz';
+// let qux = Object.create(baz);
+// qux.name = 'qux';
+
+// console.log(foo instanceof baz)
 // qux.ancestors();  // returns ['baz', 'bar', 'foo', 'Object.prototype']
 // baz.ancestors();  // returns ['bar', 'foo', 'Object.prototype']
 // bar.ancestors();  // returns ['foo', 'Object.prototype']
