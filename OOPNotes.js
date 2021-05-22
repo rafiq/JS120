@@ -1,17 +1,17 @@
 // /*
-// Object-Oriented Programming is a programming paradigm in which we think about a problem in terms of objects. In particular, it uses those objects to organize your program.
+Object-Oriented Programming is a programming paradigm in which we think about a problem in terms of objects. In particular, it uses those objects to organize your program.
 
-// Advs: Easier higher level of abstraction, independent parts makes maintenance easeier, makes code flexible and easier to understand
+Advs: Easier higher level of abstraction, independent parts makes maintenance easeier, makes code flexible and easier to understand
 
-// Cons:may be less efficient code, may be longer than procedural code, may need more disk space and processing power
+Cons:may be less efficient code, may be longer than procedural code, may need more disk space and processing power
 
-// Encapsulation is grouping related properties and behaviors together
-// when the program parts are hidden and the main parts that are interacted with are left exposed which allows for other parts of the program to easily interact with the most important output input of that program without worrying about how it is implemented.
+Encapsulation is grouping related properties and behaviors together
+when the program parts are hidden and the main parts that are interacted with are left exposed which allows for other parts of the program to easily interact with the most important output input of that program without worrying about how it is implemented.
 
-// JS is does not have access restriction as in other languages
-// ///////////////////////////////////////////////////////////////////////////////
-// creating objects
-// */
+JS is does not have access restriction as in other languages
+///////////////////////////////////////////////////////////////////////////////
+creating objects
+*/
 // let raceCar = {
 //     make: 'BMW',
 //     fuelLevel: 0.5,
@@ -96,8 +96,8 @@
 //     cash: { ones: 12, fives: 2, tens: 0, twenties: 2, hundreds: 0 },
 
 //     cashOnHand() {
-//       // This method uses this.cash to calculate the total cash value.
-//       // We'll skip the implementation.
+      // This method uses this.cash to calculate the total cash value.
+      // We'll skip the implementation.
 //     },
 
 //     allHeroes() {
@@ -155,9 +155,9 @@
 //             } else {
 //                 return `${this.title} was written by ${this.author}. I haven't read it.`;
 //             }
-//             // The LS answer is very smooth
-//             // return `${this.title} was written by ${this.author}. ` +
-//             //  `I ${this.read ? 'have' : "haven't"} read it.`;
+            // The LS answer is very smooth
+            // return `${this.title} was written by ${this.author}. ` +
+            //  `I ${this.read ? 'have' : "haven't"} read it.`;
 //         },
 //         readBook() {
 //             this.read = true;
