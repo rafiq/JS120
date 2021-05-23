@@ -466,9 +466,6 @@ someObject.someMethod.apply(context, [arg1, arg2, arg3, ...])
 let args = [arg1, arg2, arg3];
 someObject.someMethod.call(context, ...args);
 
-
-
-
 // All JavaScript functions and methods execute within an execution context, sometimes called its this binding. How this gets bound depends entirely on how the function is invoked. You can't tell a function's execution context by merely looking at how and where it's defined; you must examine the invocation itself.
 
 // Regular function calls use the global object as their execution context, while method calls use the calling object as their context. You can override this behavior by setting the execution context explicitly with either call or apply.
