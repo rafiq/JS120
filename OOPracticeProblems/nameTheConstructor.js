@@ -1,5 +1,101 @@
+let foo = {
+    a: 0,
+    incrementA: function() {
+        // let self = this;
+      function increment() {
+        this.a += 1;
+      }
+// foo.incrementA.call(foo)
+      increment.apply(this);
+    }
+  };
+
+//   foo.incrementA.bind(foo)
+  console.log(
+  foo.incrementA(),
+  foo.incrementA(),
+  foo.incrementA(),
+  foo.a
+  )
+// const TESgames = {
+//     titles: ['Arena', 'Daggerfall', 'Morrowind', 'Oblivion', 'Skyrim'],
+//     seriesTitle: 'The Elder Scrolls',
+//     listGames: function() {
+//       this.titles.forEach(function(title) {
+//         console.log(this.seriesTitle + ': ' + title);
+//       },this);
+//     }
+//   };
+
+//   TESgames.listGames();
+// const TESgames = {
+//     titles: ['Arena', 'Daggerfall', 'Morrowind', 'Oblivion', 'Skyrim'],
+//     seriesTitle: 'The Elder Scrolls',
+//     listGames: function() {
+//       this.titles.forEach(title => {
+//         console.log(this.seriesTitle + ': ' + title);
+//       });
+//     }
+//   };
+// const TESgames = {
+//     titles: ['Arena', 'Daggerfall', 'Morrowind', 'Oblivion', 'Skyrim'],
+//     seriesTitle: 'The Elder Scrolls',
+//     listGames: function() {
+//         let self = this;
+//       this.titles.forEach(function(title) {
+//         console.log(self.seriesTitle + ': ' + title);
+//       });
+//     }
+//   };
+
+//   TESgames.listGames();
 
 
+// let turk = {
+//     firstName: 'Christopher',
+//     lastName: 'Turk',
+//     occupation: 'Surgeon',
+//     getDescription() {
+//         return this.firstName + ' ' + this.lastName + ' is a '
+//                                     + this.occupation + '.';
+//     }
+//   };
+
+//   let newContext = turk.getDescription.bind(turk);
+//   console.log(newContext())
+//   function logReturnVal(func, context) {
+//     let returnVal = func.call(context);
+//     console.log(returnVal);
+//   }
+
+//   logReturnVal(turk.getDescription, turk);
+
+
+// let foo = {
+//     a: 1,
+//     b: 2,
+//   };
+
+//   let bar = {
+//      a: 'abc',
+//      b: 'def',
+//      add: function() {
+//        return this.a + this.b;
+//      },
+//   };
+
+//   console.log(bar.add.call(foo))
+
+// let obj =  {foo:1,bar:2};
+// let baz = Object.create(obj)
+// console.log(baz)
+// console.log(baz)
+// baz.fif = 4;
+// console.log(baz)
+// console.log(Object.getPrototypeOf(baz))
+// for (let prop in baz) {
+//     console.log(`${prop}: ${baz[prop]}`)
+// }
 // class Person {
 //     constructor(firstName, lastName, age, gender) {
 //         this.firstName = firstName;
