@@ -1,22 +1,82 @@
-let foo = {
-    a: 0,
-    incrementA: function() {
-        // let self = this;
-      function increment() {
-        this.a += 1;
-      }
-// foo.incrementA.call(foo)
-      increment.apply(this);
-    }
+let cat = {
+    name: 'Pudding',
+    colors: 'black and white',
+    identify() {
+      let report = function() {
+        console.log(`${this.name} is a ${this.colors} cat.`);
+      }.bind(cat);
+      report();
+    },
   };
 
-//   foo.incrementA.bind(foo)
-  console.log(
-  foo.incrementA(),
-  foo.incrementA(),
-  foo.incrementA(),
-  foo.a
-  )
+  cat.identify();
+//   let cat = {
+//     name: 'Pudding',
+//     colors: 'black and white',
+//     identify() {
+//       let report = () => {
+//         console.log(`${this.name} is a ${this.colors} cat.`);
+//       };
+//       report();
+//     },
+//   };
+
+//   cat.identify();
+//   let cat = {
+//     name: 'Pudding',
+//     colors: 'black and white',
+//     identify() {
+//         let self = this;
+//       let report = function() {
+//         console.log(`${self.name} is a ${self.colors} cat.`);
+//       };
+//       report();
+//     },
+//   };
+
+//   cat.identify();
+//   let cat = {
+//     name: 'Pudding',
+//     colors: 'black and white',
+//     identify() {
+//       let report = function() {
+//         console.log(`${this.name} is a ${this.colors} cat.`);
+//       };
+//       report.call(cat);
+//     },
+//   };
+
+//   cat.identify();
+  // Expected output: Pudding is black and white.
+
+// (function sum(number1, number2) {
+//     return number1 + number2;
+//   });
+
+//   console.log(sum(3, 4));
+
+// let sum = (number1, number2) =>  number1 + number2 ;
+
+// console.log(sum(3,5))
+// let foo = {
+//     a: 0,
+//     incrementA: function() {
+//         // let self = this;
+//       function increment() {
+//         this.a += 1;
+//       }
+// // foo.incrementA.call(foo)
+//       increment.apply(this);
+//     }
+//   };
+
+// //   foo.incrementA.bind(foo)
+//   console.log(
+//   foo.incrementA(),
+//   foo.incrementA(),
+//   foo.incrementA(),
+//   foo.a
+//   )
 // const TESgames = {
 //     titles: ['Arena', 'Daggerfall', 'Morrowind', 'Oblivion', 'Skyrim'],
 //     seriesTitle: 'The Elder Scrolls',
