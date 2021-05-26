@@ -1,15 +1,52 @@
-let cat = {
-    name: 'Pudding',
-    colors: 'black and white',
-    identify() {
-      let report = function() {
-        console.log(`${this.name} is a ${this.colors} cat.`);
-      }.bind(cat);
-      report();
+let cats = {
+    names: [ 'Butterscotch', 'Pudding', 'Fluffy' ],
+    foo() {
+        let self = this;
+      [1, 2, 3].forEach(function(number) {
+        console.log(`${number}: ${self.names[number - 1]}`);
+      });
     },
   };
 
-  cat.identify();
+  cats.foo();
+  // Expected output:
+  // 1: Butterscotch
+  // 2: Pudding
+  // 3: Fluffy
+
+
+// let logResult = function(func, context) {
+//     let result = func.call(context);
+//     console.log(result);
+//     return result;
+//   };
+
+//   let foo = function() {
+//       let sue = {
+//       name: 'Sue Perkins',
+//       age: 37,
+//       myAge() {
+//         return `${this.name} is ${this.age} years old.`;
+//       },
+//     };
+//     logResult(sue.myAge,sue);
+//   };
+// // foo.bind(logResult);
+//   foo();
+  // Expected output: Sue Perkins is 37 years old.
+
+// let cat = {
+//     name: 'Pudding',
+//     colors: 'black and white',
+//     identify() {
+//       let report = function() {
+//         console.log(`${this.name} is a ${this.colors} cat.`);
+//       }.bind(cat);
+//       report();
+//     },
+//   };
+
+//   cat.identify();
 //   let cat = {
 //     name: 'Pudding',
 //     colors: 'black and white',
