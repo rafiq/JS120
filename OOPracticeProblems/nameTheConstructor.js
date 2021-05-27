@@ -1,14 +1,78 @@
-let cats = {
-    names: [ 'Butterscotch', 'Pudding', 'Fluffy' ],
-    foo() {
-        let self = this;
-      [1, 2, 3].forEach(function(number) {
-        console.log(`${number}: ${self.names[number - 1]}`);
-      });
-    },
+let invoice = {
+    phone: 3000,
+    internet: 6500
   };
 
-  cats.foo();
+  let payment = {
+    phone: 1300,
+    internet: 5500
+  };
+
+//   let invoiceTotal = invoice.phone + invoice.internet;
+  let paymentTotal = payment.phone + payment.internet;
+  let remainingDue = invoiceTotal - paymentTotal;
+
+//   console.log(paymentTotal);         // => 6800
+//   console.log(remainingDue);         // => 2700
+
+  function createInvoice(services) {
+    if (services) {
+        return services;
+    } else return {
+        phone: 3000,
+        internet: 5500,
+    }
+}
+
+Function.prototype.total = function() {
+    return this.phone + this.internet;
+}
+  function invoiceTotal(invoices) {
+    let total = 0;
+
+    for (let index = 0; index < invoices.length; index += 1) {
+      total += invoices[index].total();
+    }
+
+    return total;
+  }
+
+  let invoices = [];
+  invoices.push(createInvoice());
+  invoices.push(createInvoice({ internet: 6500 }));
+  invoices.push(createInvoice({ phone: 2000 }));
+  invoices.push(createInvoice({
+    phone: 1000,
+    internet: 4500,
+  }));
+
+  console.log(invoiceTotal(invoices)); // 31000
+
+// function makeObj() {
+//     return {
+//         propA: 10,
+//         propB: 20,
+//     }
+
+//     // let obj = {};
+//     // obj.propA = 10;
+//     // obj.propB = 20;
+//     // return obj;
+//   }
+
+//   console.log(makeObj())
+
+// let cats = {
+//     names: [ 'Butterscotch', 'Pudding', 'Fluffy' ],
+//     foo() {
+//         let self = this;
+//       [1, 2, 3].forEach(function(number) {
+//         console.log(`${number}: ${self.names[number - 1]}`);
+//       });
+//     },
+//   };
+
+//   cats.foo();
   // Expected output:
   // 1: Butterscotch
   // 2: Pudding
