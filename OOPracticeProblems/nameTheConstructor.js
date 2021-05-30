@@ -1,13 +1,132 @@
-function Mammal(name) {
-    this.name = name;
-}
+function Ninja() {
+    this.swung = false;
+  }
 
-Mammal.prototype.breathe = function() {
-    this.breathe = true;
-};
+  // Add a swing method to the Ninja prototype which
+  // modifies `swung` and returns the calling object
 
-let cat = new Mammal;
-console.log(cat)
+  let ninjaA = new Ninja();
+  let ninjaB = new Ninja();
+
+  console.log(ninjaA.swing().swung);      // logs `true`
+  console.log(ninjaB.swing().swung);      // logs `true`
+
+// function Circle(radius) {
+//     this.radius = radius;
+// }
+
+// Circle.prototype.area = function() {
+//     return  Math.PI * this.radius**2
+// }
+// let a = new Circle(3);
+// let b = new Circle(4);
+// console.log(
+// a.area().toFixed(2), // => 28.27
+// b.area().toFixed(2), // => 50.27
+// a.hasOwnProperty('area'), // => false
+)
+// let RECTANGLE = {
+//     area: function(width,height) {
+//       return this.width * this.height;
+//     },
+//     perimeter: function() {
+//       return 2 * (this.width + this.height);
+//     },
+//   };
+
+//   function Rectangle(width, height) {
+//     this.width = width;
+//     this.height = height;
+//     this.area = RECTANGLE.area.call(this);
+//     this.perimeter = RECTANGLE.perimeter.call(this);
+//   }
+
+//   let rect1 = new Rectangle(2, 3);
+
+//   console.log(rect1.area);
+//   console.log(rect1.perimeter);
+
+// let invoice = {
+//     phone: 3000,
+//     internet: 6500
+//   };
+
+//   let payment = {
+//     phone: 1300,
+//     internet: 5500
+//   };
+
+// //   let invoiceTotal = invoice.phone + invoice.internet;
+//   let paymentTotal = payment.phone + payment.internet;
+// //   let remainingDue = invoiceTotal() - paymentTotal;
+
+// //   console.log(paymentTotal);         // => 6800
+// //   console.log(remainingDue);         // => 2700
+
+
+// function createInvoice(services) {
+//     let phoneCharge = services.phone || 3000;
+//   let internetCharge = services.internet || 5500;
+
+//   phoneCharge = (services.phone === 0) ? 0 : phoneCharge;
+//   internetCharge = (services.internet === 0) ? 0 : internetCharge;
+
+//         return {
+//             phone: phoneCharge,
+//             internet: internetCharge,
+
+//             total: function() {
+//                 return this.phone + this.internet;
+//             }
+//         }
+
+// }
+
+// function invoiceTotal(invoices) {
+//     let total = 0;
+
+//     for (let index = 0; index < invoices.length; index += 1) {
+//       total += invoices[index].total();
+//     }
+
+//     return total;
+// }
+
+//   let invoices = [];
+//   invoices.push(createInvoice());
+//   invoices.push(createInvoice({ internet: 6500 }));
+//   invoices.push(createInvoice({ phone: 2000 }));
+//   invoices.push(createInvoice({
+//     phone: 1000,
+//     internet: 4500,
+//   }));
+
+//   console.log(invoiceTotal(invoices)); // 31000
+
+//   function createPayment(services = {}) {
+//     let payment = {
+//       phone: services.phone || 0,
+//       internet: services.internet || 0,
+//       amount: services.amount,
+//     };
+
+//     payment.total = function() {
+//       return this.amount || (this.phone + this.internet);
+//     };
+
+//     return payment;
+//   }
+
+// function Mammal(name) {
+//     this.name = name;
+// }
+
+// Mammal.prototype.breathe = function() {
+//     this.breathe = true;
+// };
+
+// let cat = new Mammal;
+// console.log(cat)
 
 // let invoice = {
 //     phone: 3000,
