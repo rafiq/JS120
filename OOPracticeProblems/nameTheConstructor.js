@@ -1,15 +1,114 @@
-function Ninja() {
-    this.swung = false;
-  }
+let pudding = createPet("Cat", "Pudding");
+console.log(`I am a ${pudding.type}. My name is ${pudding.name}.`);
+pudding.sleep(); // I am sleeping
+pudding.wake();  // I am awake
 
-  // Add a swing method to the Ninja prototype which
-  // modifies `swung` and returns the calling object
+let neptune = createPet("Fish", "Neptune");
+console.log(`I am a ${neptune.animal}. My name is ${neptune.name}.`);
+neptune.sleep(); // I am sleeping
+neptune.wake();  // I am awake
 
-  let ninjaA = new Ninja();
-  let ninjaB = new Ninja();
 
-  console.log(ninjaA.swing().swung);      // logs `true`
-  console.log(ninjaB.swing().swung);      // logs `true`
+function createPet(type, name) {
+    return {
+        type :type,
+        name :name,
+
+    sleep: function() {
+        console.log(`I am sleeping`);
+        },
+
+    wake: function() {
+        console.log(`I am awake`)
+        }
+    }
+}
+
+// createPet.prototype.sleep = {
+//     return `I am sleeping`
+// }
+
+// const Animal = function(species) {
+//     this.species = species;
+//     return this;
+//   };
+
+//   Animal.prototype.sleep = function() {
+//     console.log(`The ${this.species} is sleeping`);
+//   };
+
+//   let lion = new Animal('Panthera leo');
+//   lion.sleep(); // TypeError
+
+
+// class Television {
+//     static manufacturer() {
+//       // omitted code
+//       return `Manufacturer`
+//     }
+
+//     model() {
+//       // method logic
+//       return `model`
+//     }
+//   }
+// let zenith = new Television();
+
+//   console.log(
+//       Television.manufacturer(),
+//     zenith.model()
+//   )
+
+// function User(first, last) {
+//      if (!(this instanceof User)) {
+//         return new User(first, last)
+//      }
+//          this.name = first + " " + last // `${this.first} ${this.last}`
+
+//   }
+
+//   let name = 'Jane Doe';
+//   let user1 = new User('John', 'Doe');
+//   let user2 = User('John', 'Doe');
+
+//   console.log(name);         // => Jane Doe
+//   console.log(user1.name);   // => John Doe
+//   console.log(user2.name);   // => John Doe
+
+// let ninjaA;
+
+// {
+//   const Ninja = function() {
+//     this.swung = false;
+//   };
+
+//   ninjaA = new Ninja();
+// }
+
+// // create a `ninjaB` object here; don't change anything else
+// let ninjaB = new ninjaA.constructor()
+
+// console.log(
+//     ninjaA.constructor === ninjaB.constructor,
+//     ninjaA.constructor) // => true
+
+// function Ninja() {
+//     this.swung = false;
+//   }
+
+//   // Add a swing method to the Ninja prototype which
+//   // modifies `swung` and returns the calling object
+// Ninja.prototype.swing = function() {
+//    this.swung = true;
+//     return this
+// }
+
+
+//   let ninjaA = new Ninja();
+//   let ninjaB = new Ninja();
+
+//   console.log(ninjaA.swing().swung);      // logs `true`
+//   console.log(ninjaB.swing().swung);      // logs `true`
 
 // function Circle(radius) {
 //     this.radius = radius;
@@ -24,7 +123,7 @@ function Ninja() {
 // a.area().toFixed(2), // => 28.27
 // b.area().toFixed(2), // => 50.27
 // a.hasOwnProperty('area'), // => false
-)
+// )
 // let RECTANGLE = {
 //     area: function(width,height) {
 //       return this.width * this.height;
