@@ -938,6 +938,8 @@ let a = {
   a.baz = 12;
   console.log(b.baz); // => 12
 //   ?CONNECTION: this is similar to how objects in JS are pointing to the same reference point which means that if you change the reference point in any of the variables then it is changing the same reference point.
+// Interesting! Object b wasn't mutated! When assigning a property on a JavaScript object, it always treats the property as an "own" property. That is, it assumes that the property belongs to the object named to the left of the property name. Even if the prototype chain already has a property with that name, it assigns the "own" property. Here, foo becomes an "own" property of c:
+
 ```
 ```javascript
 // In this code, object c inherits from object b which, in turn, inherits from a. Stated differently, b is the prototype of c and a is the prototype of b. All properties that you can access on a or b are now available on c. We say that objects b and a are part of the prototype chain of object c. The complete prototype chain also includes the default prototype, which is the prototype of object a in this case.
@@ -1827,6 +1829,54 @@ function makeBook() {
              `I ${this.read ? 'have' : "haven't"} read it.`;
     }
   };
+```
+
+```javascript
+// We can now access Pete's pet by referencing the .pet property with the pete object, e.g., pete.pet. Since pet is the cat object, we can use pete.pet to call the cat's methods: pete.pet.makeNoise().
+
+// Objects that help provide state within another object are called collaborator objects, or more simply, collaborators. Collaboration is all about objects working together in some manner. A collaborator works in conjunction -- in collaboration -- with another object.
+
+// The pete object has a collaborator object stored in its pet property. The pete object and the object referenced by its pet property work together. When we need to access the pet object or have it perform a behavior, we can use pete.pet to access and use the object's properties. For instance, on line 19, the pete object collaborates with the cat object (via this.pet) to access the cat's name.
+
+// Collaborator objects play an important role in object-oriented design; they represent the connections between the different classes in your program. When working on an object-oriented program, be sure to consider what collaborators your objects need and whether those associations make sense, both from a technical standpoint and in terms of modeling the problem your program aims to solve.
+
+//
+// We often talk of collaborators in the context of custom objects like pet, but collaborators don't have to be custom objects. They can be built-in objects like arrays and dates, as well.
+
+// Summary
+// Collaborator objects let you chop up and modularize the problem domain into cohesive pieces. They play an important role in modeling complicated problem domains in OO programming.
+let cat = {
+  name: 'Fluffy',
+
+  makeNoise() {
+    console.log('Meow! Meow!');
+  },
+
+  eat() {
+    // implementation
+  },
+};
+
+let dog = {
+  name: 'Maxi',
+
+  makeNoise() {
+    console.log('Woof! Woof!');
+  },
+
+  eat() {
+    // implementation
+  },
+};
+
+let pete = {
+  name: 'Pete',
+  pets: [],
+};
+
+pete.pets.push(cat);
+pete.pets.push(dog);
+
 ```
 ## Single vs
 ```javascript
