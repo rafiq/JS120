@@ -10,8 +10,6 @@
 // to create objects in bulk. Another pattern that we can use is the OLOO pattern: Objects Linking to Other Objects. It uses prototypes and involves extracting properties common to all objects of the same type (e.g., car objects) to a prototype object. All objects of the same type then inherit from that prototype.
 
 // We can extract the start and stop methods to a prototype object.
-
-// Copy Code
 let carPrototype = {
   start: function() {
     this.started = true;
@@ -36,8 +34,6 @@ car1.started; // => false
 
 // The common method to automate the properties of an object is the init
 // most common technique uses an init method on the prototype object:
-
-//
 let carPrototype = {
   start: function() {
     this.started = true;
@@ -126,7 +122,6 @@ function Rectangle(length, width) {
 
 //   We say that Square is a sub-type of Rectangle, or that Rectangle is a super-type of Square. Consider the following code:
 
-Copy Code
 function Square(size) {
   this.length = size;
   this.width = size;
@@ -143,20 +138,11 @@ sqr.getArea();     // => 25
 sqr.toString();    // => "[Square 5 x 5]"
 
 // Since a function's prototype property is writable -- we can change what object it references -- we can reassign Square.prototype to an object that inherits from Rectangle.prototype. The result is a prototype chain that looks like this:
-
-Copy Code
 sqr ---> Square.prototype ---> Rectangle.prototype ---> Object.prototype
 
 // One side-effect of this approach is that the constructor property on square objects points to Rectangle when it should point to Square instead:
-
-// Copy Code
-// omitted code
-
 sqr.constructor === Rectangle; // => true
-
 //  It happens since we reassign Square.prototype to a new object that inherits from Rectangle.prototype, and the constructor property for Rectangle.prototype points back to Rectangle. Thus, Square.prototype.constructor points to Rectangle. To fix this situation, we merely need to reassign Square.prototype.constructor to Square:
-
-Copy Code
 function Square(size) {
   this.length = size;
   this.width = size;
@@ -207,14 +193,12 @@ function Square(size) {
     return `[Square ${this.length} x ${this.width}]`;
   };
 
-  // sqr test code omitted
+// sqr test code omitted
 
 //   Prototypal Inheritance vs. Pseudo-Classical Inheritance
 // As used in JavaScript, the term inheritance is an overloaded word. It describes two related but distinct types of inheritance: prototypal and pseudo-classical.
 
 // prototypal inheritance or prototypal delegation. We sometimes call this form of inheritance object inheritance since it works with one object at a time. An object's internal [[Prototype]] property points to another object, and the object can delegate method calls to that other object. We've seen plenty of examples of prototypal inheritance in earlier assignments. For instance:
-
-Copy Code
 let personPrototype = {
   name: '',
   age: 0,
@@ -337,11 +321,9 @@ class Square extends Rectangle {
 
 // Note also that the Square constructor calls a function that is represented by the keyword super. When called inside the constructor method, the super keyword refers to the constructor method for the parent class (the class that we inherit from). Thus, super(size, size) performs the same role performed by this code from our constructor/prototype example:
 
-Copy Code
 function Square() {
   Rectangle.call(this, size, size);
 }
-
 // You don't need to use super in every subclass, but in most cases you do. In particular, if the superclass's constructor creates any object properties, you must call super to ensure that those properties are set properly. For instance, in the Rectangle class above, we create two properties in the Rectangle constructor, so we must call super in Square's constructor.
 
 // If you do call super in a subclass's constructor, you must call it before you use this in that constructor.
@@ -376,7 +358,6 @@ student.enrollInCourse('JS120'); // logs 'Kim has enrolled in course JS120.'
 
 // If we add a new play method to the Bingo class, objects created by Bingo will use that method instead of looking up the prototype chain and finding it in the Game class. As soon as JavaScript finds a method, it calls it. When a class redefines a method that a superclass defines. We call this "method overriding."
 
-Copy Code
 class Game {
   play() {
     return 'Start the game!';
@@ -449,9 +430,9 @@ function Animal() {
     console.log("I'm breathing");
   };
 }
-// Animal.prototype.breathe = function() {
-//   console.log("I'm breathing");
-// }
+Animal.prototype.breathe = function() {
+  console.log("I'm breathing");
+}
 
 var animal = new Animal();
 
@@ -459,13 +440,15 @@ console.log(animal.type);  // "mammal"
 animal.breathe();          // "I'm breathing"
 console.log(animal.constructor === Animal);  // true
 
-console.log(animal.constructor)              // f Animal() {
-                                             //   this.type = "mammal";
-                                             //
-                                             //   this.breathe = function() {
-                                             //     console.log("I'm breathing");
-                                             //   }
-                                             // }
+console.log(animal.constructor)
+
+function Animal() {
+  this.type = "mammal";
+
+    this.breathe = function() {
+     console.log("I'm breathing");
+  }
+ }
 console.log(Object.getOwnPropertyNames(animal));  // ["type", "breathe"]
 
 function Dog() {
@@ -538,8 +521,6 @@ class Goose extends Bird {
 }
 
 // Instead of using inheritance, we can use a mix-in instead. A mix-in is an object that defines one or more methods that can be "mixed in" to a class. This grants that class access to all of the methods in the object. It's the only real workaround for the lack of multiple inheritance short of duplication. Let's see what mix-ins look like:
-
-Copy Code
 const Swimmable = {
   swim() {};
 }
@@ -604,7 +585,7 @@ Object.assign(Goose.prototype, Swimmable, Flyable);
 
 // We suggest a balance of mix-in and classical inheritance pattern instead:
 
-// Inheritance works well when one object type is positively a sub-type of another object. In our example, it's natural for a penguin to also be a swimming bird. These types have an is a relationship: a penguin is a swimming bird. Whenever two object types have an "is a" relationship, constructor or class inheritance makes sense.
+// Inheritance works well when one object type is positively a sub-type of another object. In our example, it's natural for a penguin to also be a swimming bird. These types have an "is a" relationship: a penguin is a swimming bird. Whenever two object types have an "is a" relationship, constructor or class inheritance makes sense.
 
 // On the other hand, the ability to swim doesn't have that kind of relationship with storks. Swimming is a capability that penguins have. Similarly, flying is a capability that storks have. When you want to endow your objects with some capability, a mix-in may be the correct choice.
 
@@ -653,7 +634,6 @@ animals.forEach(animal => animal.move());
 
 // An example of inheritance-based polymorphism in action is the JavaScript toString method. The Object type provides a default implementation of toString() that other types inherit. Other types can also override the method to return a customized string representation of the object. Without customization, toString returns the string '[object Object]' when called on an object. With customization, it can return something more meaningful and useful. For instance, arrays and dates are objects that have customized toString methods:
 
-Copy Code
 > [1, 2, 3].toString()
 '1,2,3'
 
@@ -667,7 +647,6 @@ Copy Code
 
 // The right way to implement this program is to use duck typing to implement polymorphism:
 
-Copy Code
 class Chef {
   prepare(wedding) {
     this.prepareFood(wedding.guests);
@@ -716,7 +695,6 @@ class Wedding {
 
 // Note that merely having two different objects that have a method with the same name and compatible arguments doesn't mean that you have polymorphism. In theory, those methods might be used polymorphically, but that doesn't always make sense. Consider the following two classes:
 
-Copy Code
 class Circle {
   draw() {}
 }
@@ -780,4 +758,9 @@ aMethod(one, two, three) {
   super(one, two);
 }
 // In the solution, we added constructor method to Truck instead of modifying constructor in Vehicle because we didn't want Car to accept the bedType parameter.
+
+// Mixins are more appropriate in a has-a relationship. While it is sometimes tricky to choose one or the other, a great guideline is to decide if you want some additional functionality, or if you want to extend the abilities of the class. In this case, it is pretty clear that we need the functionality of walking; we don't need to extend the abilities of class Person(extending the abilities of a class coincides with an is-a relationship, not has-a).
+
+// ! testing object equality
+// In JavaScript, comparing two objects either with == or === checks for object identity. In other words, the comparison evaluates to true if it's the same object on either side of == or ===. This is a limitation, in a sense, because sometimes we need to check if two objects have the same key/value pairs. JavaScript doesn't give us a way to do that.
 
