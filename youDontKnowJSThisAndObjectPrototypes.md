@@ -222,7 +222,7 @@ JavaScript's object mechanism does not automatically perform copy behavior when 
 
 Since observed class behaviors in other languages imply copies, let's examine how JS developers fake the missing copy behavior of classes in JavaScript: mixins. We'll look at two types of "mixin": explicit and implicit.
 
-Explicit Mixins
+### Explicit Mixins
 Let's again revisit our Vehicle and Car example from before. Since JavaScript will not automatically copy behavior from Vehicle to Car, we can instead create a utility that manually copies. Such a utility is often called extend(..) by many libraries/frameworks, but we will call it mixin(..) here for illustrative purposes.
 ```javascript
 // vastly simplified `mixin(..)` example:
