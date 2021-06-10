@@ -16,6 +16,15 @@
 // Inheritance can be emulated by changing where a functions .prototype property points to (Just remember to reset where the .constructor property points to).
 ```
 # Objects, object factories, constructors and prototypes, OLOO, and ES6 classes
+
+## this keyword definition
+```javascript
+// The `this` keyword is used to reference the execution context on a given function/method call.
+// The setting of `this` can be done either implicitly (by the JS engine) or explicitly.
+// Any regular function call sets the binding for `this` to the global object (or window in the browser).
+// When a method is called on an object, `this` is implicitly set to reference the calling object.
+// We can use the `call`, `apply` or `bind` methods to explicitly set the context of `this`.
+```
 ```javascript Constructors Defs
 // Object constructors, or constructors for short, are another way to create objects in JavaScript.
 
@@ -467,10 +476,6 @@ let cat = new Pet('cat');
 
 // ES6 classes provide a cleaner, more compact alternative to constructors and prototypes. As with functions, they are first-class citizens and come in the form of declarations and expressions. Functionally, classes behave almost identically to the constructors and prototypes they aim to replace. Classes allow for static methods by using the static modifier.
 
-// Factory functions instantiate and return a new object in the function body. They let us create new objects based on a predefined template. However, they have two significant downsides:
-
-// There is no way to tell whether a factory function created a given object.
-// All objects created by a factory function have separate copies of the methods, which can be redundant and wasteful.
 // Constructor functions are meant to be invoked with the new operator. They instantiate a new object behind the scenes and let the developer manipulate it through the this keyword. A typical constructor uses the following pattern:
 
 // The constructor is invoked with new.
@@ -479,7 +484,97 @@ let cat = new Pet('cat');
 // The code in the function body is executed.
 // The function returns the object referenced by this unless the function returns an explicit object.
 // Every function has a prototype property that points to an object that contains a constructor property. The constructor property points back to the function itself. Thus, if Kumquat is a construction function, then Kumquat.prototype.constructor === Kumquat.
+```
+```javascript
+// Factory functions instantiate and return a new object in the function body. They let us create new objects based on a predefined template. However, they have two significant downsides:
 
+// There is no way to tell whether a factory function created a given object.
+// All objects created by a factory function have separate copies of the methods, which can be redundant and wasteful.
+const animal = () => ({
+  talk: function() {
+    console.log(this.sound);
+  }
+});
+
+const dog = () => Object.create(animal(), {
+  sound: {
+    value: "woof"
+  }
+});
+
+// or...
+
+const dog2 = () => {
+  var someDog = Object.create(animal());
+  someDog.sound = "woof";
+
+  return someDog;
+};
+
+var someDog = dog();
+someDog.talk();
+
+var someDog2 = dog2();
+someDog2.talk();//woof
+
+// ! OR
+const animal = (sound) => {
+  return {
+    talk: () => console.log(sound)
+  }
+}
+const dog = () => animal('woof')
+const sniffles = dog()
+sniffles.talk() // Outputs: "woof"
+// OR
+
+Let's build an Animal factory function:
+
+const Animal = ({color = "green", numberOfLegs = 4} = {}) => {
+  const SetColor = (newColor) => {
+    color = newColor;
+  };
+  const GetColor= () => color;
+  const GetNumberOfLegs = () => numberOfLegs;
+  const MakeSound = () => console.log("Screetch");
+  return {
+    GetColor,
+    GetNumberOfLegs,
+    MakeSound
+  }
+}
+const newCreature = Animal({color: black, numberOfLegs: 3})
+newCreature.MakeSound() // -> "Screetch"
+And let's build a Dog factory function:
+
+const Dog = ({name = "rex", color = "black", numberOfLegs = 4} = {}) => {
+  const MakeSound = () => console.log("Woof Woof");
+  const Roll = () => console.log(`${name} made a roll!`)
+  return {
+    MakeSound,
+    Roll
+  }
+}
+const sniffles = Dog({name: "sniffles", color: black, numberOfLegs: 4})
+sniffles.MakeSound() // -> "Woof Woof"
+sniffles.Roll() // -> "sniffles made a roll!"
+What should I do if I want to inherit all the good things I get from Animal that I have already?
+Using ES6 Spread Syntax helps us to achieve a very neat way of doing so:
+
+const Dog = ({name = "rex", color = "black", numberOfLegs = 4} = {}) => {
+  const anAnimal = Animal({color, numberOfLegs}); // used the Animal factory!
+  const MakeSound = () => console.log("Woof Woof");
+  const Roll = () => console.log(`${name} made a roll!`)
+  return {
+    ...anAnimal, // And That's where magic happens!
+    MakeSound,
+    Roll
+  }
+}
+const sniffles = Dog({name: "sniffles", color: black, numberOfLegs: 4})
+sniffles.GetNumberOfLegs() // -> 4
+sniffles.MakeSound() // -> "Woof Woof"
+sniffles.Roll() // -> "sniffles made a roll!"
 ```
 ```javascript CONSTRUCTOR EXAMPLES
 
