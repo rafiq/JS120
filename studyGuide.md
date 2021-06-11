@@ -1363,7 +1363,26 @@ greeterEn(); // logs 'Hello!'
 // Static methods are methods that apply to the constructor or class itself, not a specific object created by that constructor or class.
 
 // Any method defined in any prototype in the prototype chain of an object is considered to be an instance method of the object.
+class Cat {
+  constructor(name) {
+    this.name = name;
+    console.log(`Hello! My name is ${this.name}!`);  //COnstructor Method
+  }
+}
 
+let kitty = new Cat('Sophie');
+class Cat {
+  constructor(name) {
+    this.name = name;
+  }
+
+  greet() {
+    console.log(`Hello! My name is ${this.name}!`); //Instance Method
+  }
+}
+
+let kitty = new Cat('Sophie');
+kitty.greet();
 // / In OOP, we often refer to individual objects of a specific data type as instances of that type. For example, in the Dog example from the Constructors with Prototypes assignment, maxi and dexter are instances of the Dog type. An instance is just another term for the objects created using any means of defining multiple objects of the same kind (e.g., dogs). The term object is more general, while instance is more specific.
 
 // So far, we've been using constructors to create instances of the Dog type. We can also think of objects created by factory functions as instances.
