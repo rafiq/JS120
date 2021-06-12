@@ -528,7 +528,7 @@ const sniffles = dog()
 sniffles.talk() // Outputs: "woof"
 // OR
 
-Let's build an Animal factory function:
+// Let's build an Animal factory function:
 
 const Animal = ({color = "green", numberOfLegs = 4} = {}) => {
   const SetColor = (newColor) => {
@@ -1486,7 +1486,7 @@ let arrayFrom = obj => {
 
 arrayFrom({0: 'a', 1: 'b', 2: 'c', length: 3});
 // => [ 'a', 'b', 'c' ]
-/ the node list is an array-like object, so Array.from can create an array based on its content.
+// / the node list is an array-like object, so Array.from can create an array based on its content.
 
 // the Object constructor creates new objects:
 > new Object()
