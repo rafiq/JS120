@@ -18,12 +18,13 @@
 # Objects, object factories, constructors and prototypes, OLOO, and ES6 classes
 
 ## this keyword definition
-```javascript
+```javascript this DEFINITION
 // The `this` keyword is used to reference the execution context on a given function/method call.
 // The setting of `this` can be done either implicitly (by the JS engine) or explicitly.
 // Any regular function call sets the binding for `this` to the global object (or window in the browser).
 // When a method is called on an object, `this` is implicitly set to reference the calling object.
 // We can use the `call`, `apply` or `bind` methods to explicitly set the context of `this`.
+// This only works inside functions!!! then its context is determined how it is invoked.
 ```
 ```javascript Constructors Defs
 // Object constructors, or constructors for short, are another way to create objects in JavaScript.
@@ -545,7 +546,7 @@ const Animal = ({color = "green", numberOfLegs = 4} = {}) => {
 }
 const newCreature = Animal({color: black, numberOfLegs: 3})
 newCreature.MakeSound() // -> "Screetch"
-And let's build a Dog factory function:
+// And let's build a Dog factory function:
 
 const Dog = ({name = "rex", color = "black", numberOfLegs = 4} = {}) => {
   const MakeSound = () => console.log("Woof Woof");
@@ -558,8 +559,8 @@ const Dog = ({name = "rex", color = "black", numberOfLegs = 4} = {}) => {
 const sniffles = Dog({name: "sniffles", color: black, numberOfLegs: 4})
 sniffles.MakeSound() // -> "Woof Woof"
 sniffles.Roll() // -> "sniffles made a roll!"
-What should I do if I want to inherit all the good things I get from Animal that I have already?
-Using ES6 Spread Syntax helps us to achieve a very neat way of doing so:
+// What should I do if I want to inherit all the good things I get from Animal that I have already?
+// Using ES6 Spread Syntax helps us to achieve a very neat way of doing so:
 
 const Dog = ({name = "rex", color = "black", numberOfLegs = 4} = {}) => {
   const anAnimal = Animal({color, numberOfLegs}); // used the Animal factory!
