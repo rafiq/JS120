@@ -1307,6 +1307,25 @@ console.log(animal.constructor)              // f Animal() {
                                              //     console.log("I'm breathing");
                                              //   }
                                              // }
+
+let ninjaB = new ninjaA.constructor();
+// Does your answer use Object.create instead?
+
+// Copy Code
+let ninjaB = Object.create(ninjaA);
+// This code works as well, but there is a flaw: it puts the swung property in the prototype object instead of in the ninjaB object where it belongs. Thus, ninjaA and ninjaB are somewhat different objects:
+
+Copy Code
+ninjaA:
+  swung: false
+  constructor: Ninja
+  prototype: {}
+
+ninjaB:
+  constructor: Ninja
+  prototype: {
+    swung: false
+  }
 ```
 ```javascript
 // You can think of a function that returns another function as a function factory: it creates and returns a new function. Typically, the function factory uses the arguments you pass to it to determine the specific job performed by the function it returns.
