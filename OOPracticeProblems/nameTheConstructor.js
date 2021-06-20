@@ -1,37 +1,1179 @@
-function Person(name) {
-  this.name = name;
-  this.school = undefined;
-}
+// const delegationMixin = {
+//   delegate() {
+//     return `I am delegating this work to YOU`
+//   }
+// }
+// class Employees {
+//   constructor(name, serialNumber) {
+//     this.name = name;
+//     this.serialNumber = serialNumber
+//   }
+// }
+// class fullTimeEmployees extends Employees {
+//   constructor(name, serialNumber) {
+//     super(name,serialNumber)
+//     this.jobType = "full time"
+//   }
+//   takeVacation() {
+//     return `I am taking a VACATION`
+//   }
+// }
+// class PartTimeEmployees extends Employees {
+//   constructor(name, serialNumber) {
+//     super(name, serialNumber)
+//     this.jobType = "part time"
+//     this.vacationTime = 0
+//     this.deskType = "open office"
+//   }
+// }
+// class Manager extends fullTimeEmployees {
+//   constructor(name, serialNumber,jobType) {
+//     super(name, serialNumber, jobType)
+//     this.vacationTime = 14
+//     this.deskType = "private office"
+//   }
+// }
+// class Executive extends Manager {
+//   constructor(name, serialNumber,jobType) {
+//     super(name, serialNumber,jobType)
+//     this.vacationTime = 20
+//     this.deskType = "corner office"
+//   }
+//   hireAndFire() {
+//     return `You're hired and YOU'RE fired!!`
+//   }
+// }
+// class RegularEmployee extends fullTimeEmployees {
+//   constructor(name, serialNumber) {
+//     super(name, serialNumber)
+//     this.vacationTime = 10
+//     this.deskType = "cubicle"
+//   }
+// }
+// Object.assign(Manager.prototype, delegationMixin)
 
-Person.prototype.speak = function() {
-  return `Hello, my name is ${this.name}.`;
+// let foo = new Manager("Kurk",12345)
+// console.log(foo)
+
+// let bar = new Executive("Pricard",54321)
+// console.log(bar,bar.hireAndFire(),bar.delegate())
+// let baz = new RegularEmployee("Scottie",345)
+// console.log(baz,baz.takeVacation(),foo.takeVacation())
+// let bill = new PartTimeEmployees("Bill Nye the Science Guy",999999);
+// console.log(bill)
+
+
+
+let contacts = {
+  list: [],
+  add(name, gender) {
+    let contact = new Contact(name, gender);
+    this.list.push(contact);
+  },
+  males() {
+    return this.list.filter(function(contact) {
+      return contact.gender === 'male';
+     });
+  },
+  females() {
+    return this.list.filter(function(contact) {
+      return contact.gender === 'female';
+    });
+  },
+  filterByName(name) {
+    return this.list.filter(function(contact) {
+      return contact.hasName(name);
+    });
+  },
 };
 
-function Child(name,school) {
-  Person.call(this,name);
-  this.school = school;
+class Contact {
+  constructor(name, gender) {
+    this.name = name
+    this.gender = gender
+    Object.setPrototypeOf(this,contacts)
+  }
 }
 
-Child.prototype.learn = function() {
-  return "I'm going to school!";
-};
+Object.prototype.hasName = function(name) {
+  return this.name === name;
+}
 
-let child = new Child("Suzy", "PS 33");
-console.log(child instanceof Child);                               // true
-console.log(child instanceof Person === false);                    // true
-console.log(Object.getPrototypeOf(child) === Child.prototype);     // true
-console.log(Object.getPrototypeOf(child).constructor === Child);   // true
-console.log(child.school === "PS 33");                             // true
-console.log(child.learn() === "I'm going to school!");             // true
-console.log();
+let foo = new Contact("Frank","male");
+console.log(foo.add("Hank","male"),foo.add("Doby","male"),foo.add("Harry","male"));
+console.log(foo.add("James","male"),foo.add("Janet","female"))
+console.log(foo.males());
+console.log(foo.females());
+console.log(foo.filterByName("Doby"));
 
-let person = new Person("Pete");
-console.log(person instanceof Child === false);                    // true
-console.log(person instanceof Person);                             // true
-console.log(Object.getPrototypeOf(person) === Person.prototype);   // true
-console.log(Object.getPrototypeOf(person).constructor === Person); // true
-console.log(person.school === undefined);                          // true
-console.log(person.speak() === "Hello, my name is Pete.");         // true
+
+// let contacts = {
+//   list: [],
+//   add(name, gender) {
+//     let contact = new Contact(name, gender);
+//     this.list.push(contact);
+//   },
+//   males() {
+//     return this.list.filter(function(contact) {
+//       return contact.gender === 'male';
+//      });
+//   },
+//   females() {
+//     return this.list.filter(function(contact) {
+//       return contact.gender === 'female';
+//     });
+//   },
+//   filterByName(name) {
+//     return this.list.filter(function(contact) {
+//       return contact.hasName(name);
+//     });
+//   },
+// };
+
+// class Contact {
+//   constructor(name, gender) {
+//     this.name = name
+//     this.gender = gender
+//     Object.setPrototypeOf(this,contacts)
+//   }
+// }
+
+// Object.prototype.hasName = function(name) {
+//   return this.name === name;
+// }
+
+// let foo = new Contact("Frank","male");
+// console.log(foo.add("Hank","male"),foo.add("Doby","male"),foo.add("Harry","male"));
+// console.log(foo.add("James","male"),foo.add("Janet","female"))
+// console.log(foo.males());
+// console.log(foo.females());
+// console.log(foo.filterByName("Doby"));
+
+// let plane = {
+
+//   passengers: 220
+// };
+
+// let flyingMachine = {
+//   fly() {
+//     console.log(`Off we go with ${this.passengers} passengers!`);
+//   }
+// };
+
+// Object.assign(plane,flyingMachine)
+// plane.fly(); //Off we go with 220 passengers!
+
+
+// console.log(typeof [])
+// let compare = {
+//   number: 10,
+//   compareNumbers(nums) {
+//     let self = this;
+//     return nums.filter(function(num) {
+//       return num < self.number;
+//     });
+//   },
+// };
+// console.log(
+//   compare.compareNumbers([1, 6, 19, 7, 12]),//[ 1, 6, 7 ]
+//   )
+
+
+// let cat = {
+//   name: 'Fluffy',
+// }
+
+// let dog = {
+//   name: 'Fido',
+// }
+
+// function purr() {
+//   console.log(`${this.name} is purring...`);
+// }
+
+// cat.purr = purr.bind(dog);
+// cat.purr();
+
+
+// let cat = {
+//   name: 'Fluffy',
+// };
+
+// function purr() {
+//   console.log(`${this.name} is purring...`);
+// }
+
+// purr.call(cat);
+
+
+// function Square(length) {
+//   this.length = length;
+// }
+
+// Square.prototype.area = function () {
+//   return this.length * this.length;
+// };
+
+// Square.describe = function () {
+//   console.log('Squares consist of four equal sides at 90 degree angles to each other.');
+// };
+
+// let foo = new Square(5);
+//  console.log(foo.area())//25
+// //  console.log(foo.describe())//Type Error
+//  console.log(Square.describe())//'Squares consist of four equal sides at 90 degree angles to each other.'
+// // Examples of created student objects with grades; methods on the objects are not shown here for brevity.
+// // The following are only showing the properties that aren't methods for the three objects
+// function createStudent(name, year) {
+//   return {
+//     name: name,
+//     year: year,
+//     courses: [],
+//     info: function() {
+//       console.log(`${this.name} is a ${this.year} year student`);
+//     },
+
+//     listCourses: function() {
+//       return this.courses;
+//     },
+
+//     addCourse: function(course) {
+//       this.courses.push(course);
+//     },
+
+//     addNote: function(courseCode, note) {
+//       let course = this.courses.filter(course => {
+//         return course.code === courseCode;
+//       })[0];
+
+//       if (course) {
+//         if (course.note) {
+//           course.note += `; ${note}`;
+//         } else {
+//           course.note = note;
+//         }
+//       }
+
+//     },
+
+//     viewNotes: function() {
+//       this.courses.forEach(course => {
+//         if (course.note) {
+//           console.log(`${course.name}: ${course.note}`);
+//         }
+//       });
+//     },
+
+//     updateNote: function(courseCode, note) {
+//       let course = this.courses.filter(course => {
+//         return course.code === courseCode;
+//       })[0];
+
+//       if (course) {
+//         course.note = note;
+//       }
+//     },
+//   };
+// }
+
+// class School {
+//   constructor() {
+
+//     this.courseList = [];
+//     this.studentCollection = [];
+//   }
+//   addStudent(name, year) {
+//     const VALID_INPUT = ['1st', '2nd', '3rd', '4th', '5th']
+//     if (!VALID_INPUT.includes(year)) throw Error `Please input one of the following: '1st', '2nd', '3rd', '4th', '5th'`
+//     return this.studentCollection.push(createStudent(name,year))
+//   }
+//   enrollStudent(studentName,courseObject) {
+//     let studentObject = this.studentCollection.filter(el => el.name === studentName)[0]
+
+//     return studentObject.addCourse(courseObject);
+//   }
+//   addGrade(studentName,courseName, grade) {
+//     let studentObject = this.studentCollection.filter(el => el.name === studentName)[0]
+
+//     let targetCourse = studentObject.courses.filter(el => el.name === courseName)[0];
+
+//     return targetCourse.grade = grade;
+//   }
+//   getReportCard(studentName) {
+//     let studentObject = this.studentCollection.filter(el => el.name === studentName)[0]
+
+//     // let result = [];
+
+//     studentObject.courses.forEach(el => {
+//       console.log(`${el.name}: ${el.grade || "In progress"}`)
+//     })
+
+//     return true;
+//   }
+// }
+// let jim = createStudent("Mathew","2nd");
+// // createStudent.
+// jim.addCourse({ name: 'Math', code: 101, grade: 95, })
+// jim.addCourse({ name: 'Advanced Math', code: 102, grade: 90, })
+
+// let harvard = new School();
+// harvard.addStudent("Rick", "3rd")
+// harvard.studentCollection.push(jim)
+// harvard.enrollStudent("Mathew",{ name: 'Physics', code: 202, });
+// harvard.addGrade("Mathew","Math",99);
+// harvard.addGrade("Mathew","Physics",69);
+
+// console.log(harvard.getReportCard("Mathew"))
+// foo;
+// {
+//   name: 'foo',
+//   year: '3rd',
+//   courses: [
+//     { name: 'Math', code: 101, grade: 95, },
+//     { name: 'Advanced Math', code: 102, grade: 90, },
+//     { name: 'Physics', code: 202, }
+//   ],
+// }
+
+// bar;
+// {
+//   name: 'bar',
+//   year: '1st',
+//   courses: [
+//     { name: 'Math', code: 101, grade: 91, },
+//   ],
+// }
+
+// qux;
+// {
+//   name: 'qux',
+//   year: '2nd',
+//   courses: [
+//     { name: 'Math', code: 101, grade: 93, },
+//     { name: 'Advanced Math', code: 102, grade: 90, },
+//    ],
+// }
+
+//  school.getReportCard(foo);
+// = Math: 95
+// = Advanced Math: 90
+// = Physics: In progress
+
+//  school.courseReport('Math');
+// = =Math Grades=
+// = foo: 95
+// = bar: 91
+// = qux: 93
+// = ---
+// = Course Average: 93
+
+//  school.courseReport('Advanced Math');
+// = =Advanced Math Grades=
+// = foo: 90
+// = qux: 90
+// = ---
+// = Course Average: 90
+
+//  school.courseReport('Physics');
+// = undefined
+
+
+// function objectsEqual(obj1, obj2) {
+//   let obj1Keys = Object.keys(obj1)
+//   let obj2Keys = Object.keys(obj2)
+//   let obj1Values = Object.values(obj1)
+//   let obj2Values = Object.values(obj2)
+//   return keysAreSame(obj1Keys,obj2Keys) && valuesAreSame(obj1Values,obj2Values)
+// }
+// function keysAreSame(arr1,arr2) {
+//   if (arr1.length !== arr2.length) return false;
+//   for (let i = 0; i < arr1.length; i++) {
+//     if (arr1[i] !== arr2[i]) return false;
+//   }
+//   return true;
+// }
+
+// function valuesAreSame(arr1,arr2) {
+//   if (arr1.length !== arr2.length) return false;
+//   for (let i = 0; i < arr1.length; i++) {
+//     if (arr1[i] !== arr2[i]) return false;
+//   }
+//   return true;
+// }
+// console.log(objectsEqual({a: 'foo'}, {a: 'foo'}));                      // true
+// console.log(objectsEqual({a: 'foo', b: 'bar'}, {a: 'foo'}));            // false
+// console.log(objectsEqual({}, {}));                                      // true
+// console.log(objectsEqual({a: 'foo', b: undefined}, {a: 'foo', c: 1}));  // false
+
+
+// let item = {
+//   name: 'Foo',
+//   description: 'Fusce consequat dui est, semper.',
+//   price: 50,
+//   quantity: 100,
+//   discount: function(percent) {
+//     let discount = this.price * percent / 100;
+//     return this.price - discount;
+
+//     // return this.price;
+//   },
+// };
+// console.log(
+
+//   item.discount(20)   ,// should return 40
+//   // = 40
+//   item.discount(50)   ,// should return 25
+//   // = 20
+//   item.discount(25)   ,// should return 37.5,
+//   )
+// = 15
+// function createGreeter(name) {
+//   return {
+//     name: name,
+//     morning: 'Good Morning',
+//     afternoon: 'Good Afternoon',
+//     evening: 'Good Evening',
+//     greet: function(timeOfDay) {
+//       let msg = '';
+//       switch (timeOfDay) {
+//         case 'morning':
+//           msg += `${this.morning} ${name}`;
+//           break;
+//         case 'afternoon':
+//           msg += `${this.afternoon} ${name}`;
+//           break;
+//         case 'evening':
+//           msg += `${this.evening} ${name}`;
+//           break;
+//       }
+
+//       console.log(msg);
+//     },
+//   };
+// }
+
+// let helloVictor = createGreeter('Victor');
+//  helloVictor.greet('morning');
+//  Good Morning Victor
+
+
+// class Person {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   gait() {
+//     return "strolls";
+//   }
+// }
+
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   gait() {
+//     return "saunters";
+//   }
+// }
+
+// class Cheetah {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   gait() {
+//     return "runs";
+//   }
+// }
+// const walkMixin = {
+//   walk() {
+//     return `${this.name} ${this.gait()} forward`
+//   }
+// }
+
+// Object.assign(Person.prototype,walkMixin)
+// Object.assign(Cat.prototype,walkMixin)
+// Object.assign(Cheetah.prototype,walkMixin)
+
+// let mike = new Person("Mike");
+// console.log(mike.walk());
+// // "Mike strolls forward"
+
+// let kitty = new Cat("Kitty");
+// console.log(kitty.walk());
+// // "Kitty saunters forward"
+
+// let flash = new Cheetah("Flash");
+// console.log(flash.walk());
+// "Flash runs forward"
+// function Rectangle(width,length) {
+//   this.width = width;
+//   this.length = length;
+// }
+
+// Rectangle.prototype.getWidth = function() {
+//   return  this.width;
+// }
+
+// Rectangle.prototype.getLength = function() {
+//   return this.length;
+// }
+
+// Rectangle.prototype.getArea = function() {
+//   return this.length * this.width
+// }
+
+// function Square(width) {
+//   this.width = width;
+//   this.length = width;
+//   // Rectangle.call(this.width,width)
+//   // Rectangle.call(this.length, width);
+// }
+// Square.prototype.getArea = function(width) {
+//   Rectangle.prototype.getArea.call(this,width,width)
+// }
+// Square.prototype = Object.create(Rectangle.prototype)
+// Square.prototype.constructor = Square;
+
+// let rect = new Rectangle(4, 5);
+// let square = new Square(5);
+// console.log(`area of square = ${square.getArea()}`); // area of square = 25
+// console.log(rect.getWidth()); // 4
+// console.log(rect.getLength()); // 5
+// console.log(rect.getArea()); // 20
+
+// class Person {
+//   greeting(text) {
+//     console.log(text)
+//   }
+// }
+// // function Person() {
+// // }
+// // Person.prototype.greeting = function(text) {
+//   // console.log(text);
+// // }
+// class Shouter extends Person {
+//     greeting(text) {
+//       console.log(text.toUpperCase())
+//     }
+// }
+// // function Shouter() {
+//   // Person.call(this);
+// // }
+// // Shouter.prototype = Object.create(Person.prototype)
+// // Shouter.prototype.greeting = function(text) {
+// //   Person.prototype.greeting.call(this, text.toUpperCase());
+// // }
+
+// let person = new Person();
+// let shouter = new Shouter();
+
+// person.greeting("Hello. It's very nice to meet you."); // Hello. It's very nice to meet you
+// shouter.greeting("Hello my friend."); // HELLO MY FRIEND.
+
+
+// class Something {
+//   constructor() {
+//     this.data = "Hello";
+//   }
+
+//   dupData() {
+//     return this.data + this.data;
+//   }
+
+//   static dupData() {
+//     return "ByeBye";
+//   }
+// }
+
+// let thing = new Something();
+// console.log(Something.dupData());
+// console.log(thing.dupData());
+
+
+// class Vehicle {
+//   constructor(make,model) {
+//     this.make = make;
+//     this.model = model;
+//   }
+//   info() {
+//     return `${this.make} ${this.model}`
+//   }
+//   getWheels() {
+//     return `${this.wheels}`
+//   }
+// }
+// class Car extends Vehicle {
+//   constructor(make, model) {
+//     super(make, model)
+//     this.wheels = 4;
+//   }
+// }
+
+// class Motorcycle  extends Vehicle {
+//   constructor(make, model) {
+//     super(make, model)
+//     this.wheels = 2;
+//   }
+// }
+
+// class Truck extends Vehicle {
+//   constructor(make, model, payload) {
+//     super(make, model)
+//     this.wheels = 6;
+//     this.payload = payload;
+//   }
+// }
+// let foo = new Truck("Ford","F150",8000)
+// console.log(foo.getWheels(),foo.info(),foo)
+
+// class Animal {
+
+//   constructor(name, age, status, legs, species) {
+//     this.name = name;
+//     this.age = age;
+//     this.legs = legs;
+//     this.species = species;
+//     this.status = status;
+//   }
+//   introduce() {
+//     return `Hello, my name is ${this.name} and I am ${this.age} years old and ${this.status}.`;
+//   }
+// }
+
+// class Cat extends Animal {
+//   constructor(name,age,status,legs = 4,species = "cat") {
+//     super(name, age, status)
+//     this.legs = legs;
+//     this.species = species;
+//   }
+//   introduce() {
+//     return super.introduce() + " Meow meow!"
+//   }
+// }
+
+// class Dog extends Animal {
+//   constructor(name,age,status, legs = 4,species = "dog",master = "") {
+//     super(name, age, status)
+//     this.legs = legs;
+//     this.species = species
+//     this.master = master;
+//   }
+//     greetMaster() {
+//       return `Hello ${this.master}! Woof, woof!`
+//     }
+// }
+
+// let cat = new Cat("Pepe", 2, "happy");
+// console.log(cat.introduce() === "Hello, my name is Pepe and I am 2 years old and happy. Meow meow!");
+// // logs true
+// console.log(cat.introduce(),cat.status)
+
+// class Pet {
+//   constructor(name, age) {
+//     this.name = name;
+//     this.age = age;
+//   }
+// }
+
+// class Cat extends Pet {
+//   constructor(name, age,color) {
+//     super(name, age)
+//     this.color = color;
+//   }
+//   info() {
+//     return `My cat ${this.name} is ${this.age} years old and has ${this.color}`
+//   }
+// }
+
+// let pudding = new Cat('Pudding', 7, 'black and white');
+// let butterscotch = new Cat('Butterscotch', 10, 'tan and white');
+
+// console.log(pudding.info());
+// console.log(butterscotch.info());
+
+
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//   }
+//   speaks() {
+//     return `${this.name} says meowwww.`;
+//   }
+// }
+
+// let fakeCat = Object.create(Cat.prototype)
+// console.log(fakeCat instanceof Cat); // logs true
+// console.log(fakeCat.name);           // logs undefined
+// console.log(fakeCat.speaks());       // logs undefined says meowwww.
+
+
+// function Rectangle(width,length) {
+//   this.width = width;
+//   this.length = length;
+// }
+
+// Rectangle.prototype.getWidth = function() {
+//   return  this.width;
+// }
+
+// Rectangle.prototype.getLength = function() {
+//   return this.length;
+// }
+
+// Rectangle.prototype.getArea = function() {
+//   return this.length * this.width
+// }
+
+// function Square(width) {
+//   this.width = width;
+//   this.length = width;
+//   // Rectangle.call(this.width,width)
+//   // Rectangle.call(this.length, width);
+// }
+// Square.prototype = Object.create(Rectangle.prototype)
+// Square.prototype.constructor = Square;
+
+// // Rectangle.prototype.getArea.call(Square.prototype)
+// // Square.prototype.getArea = function() {
+//   // return this.size * this.size;
+// // }
+
+// let rect = new Rectangle(4, 5);
+// let square = new Square(5);
+// console.log(`area of square = ${square.getArea()}`); // area of square = 25
+// console.log(rect.getWidth()); // 4
+// console.log(rect.getLength()); // 5
+// console.log(rect.getArea()); // 20
+
+
+// class Vehicle {
+//   constructor(year) {
+//     this.year = year;
+
+//   }
+// }
+// const towMixin = {
+//   tow() {
+//     return "'I can tow a trailer!'";
+//   }
+// }
+
+// class Truck extends Vehicle {
+//   constructor(year) {
+//     super(year)
+//     Object.assign(this, towMixin);
+//   }
+// }
+
+// class Car extends Vehicle {}
+
+// let truck = new Truck(2002);
+// console.log(truck.year);
+// console.log(truck.tow());
+
+// let car = new Car(2015);
+// console.log(car.year);
+
+
+// class Truck {
+//   constructor() {
+//     Object.assign(this,towMixin)
+//   }
+// }
+
+// class Car {}
+
+// const towMixin = {
+//   tow() {
+//     return `I can tow a trailer!`;
+//   }
+// }
+// let truck = new Truck();
+// console.log(
+
+//   truck.tow(),
+//   )
+
+
+
+// const swimMixin = {
+//   swim() {
+//     return `${this.name} is swimming.`;
+//   }
+// }
+
+// class Fish {
+//   constructor(name) {
+//     this.name = name;
+//     Object.assign(this,swimMixin);
+//   }
+// }
+
+// class Dog {
+//   constructor(name) {
+//     this.name = name;
+//     Object.assign(this,swimMixin)
+//   }
+// }
+
+// class Maltese extends Dog {}
+
+// // Object.assign(Dog.prototype,swimMixin);
+// // Object.assign(Fish.prototype,swimMixin)
+// let dog1 = new Maltese("Buddy");
+// let fish1 = new Fish("Nemo");
+
+// console.log(dog1.swim());
+// console.log(fish1.swim());
+
+
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   greet() {
+//     return `Hello! My name is ${this.name}!`;
+//   }
+// }
+// const walkMixin = {
+//   walk() {
+//     return `Let's go for a walk!`;
+//   }
+// }
+// let kitty = new Cat("Sophie");
+// Object.assign(Cat.prototype,walkMixin);
+
+// console.log(kitty.greet());
+// console.log(kitty.walk());
+
+
+// class Vehicle {
+//   startEngine() {
+//     return 'Ready to go!';
+//   }
+// }
+
+// class Truck extends Vehicle {
+//   startEngine(speed) {
+//     return super.startEngine() + ` Drive ${speed}, please!`
+//   }
+// }
+
+// let truck1 = new Truck();
+// console.log(truck1.startEngine('fast'));
+
+// let truck2 = new Truck();
+// console.log(truck2.startEngine('slow'));
+
+
+// class Vehicle {
+//   constructor(year) {
+//     this.year = year;
+//   }
+// }
+
+// class Truck extends Vehicle {
+//   constructor(year,bedType){
+//     super(year)
+//     this.bedType = bedType;
+//   }
+// }
+
+// class Car extends Vehicle {}
+
+// let truck1 = new Truck(2003, 'Short');
+// console.log(truck1.year);
+// console.log(truck1.bedType);
+
+
+// class Vehicle {
+//   constructor(year) {
+//     this.year = year;
+//     // startEngine()
+//   }
+// }
+
+// class Truck extends Vehicle {
+//   constructor(year) {
+//     super(year)
+//     this.startEngine()
+//   }
+//   startEngine() {
+//     console.log('Ready to go!')
+//   }
+// }
+
+// let truck = new Truck(2003);
+// console.log(truck.year); // 2003
+
+
+// class Vehicle {
+//   constructor(year) {
+//     this.year = year;
+//   }
+// }
+// class Truck extends Vehicle {
+// }
+// class Car extends Vehicle {
+// }
+// let truck = new Truck(2003);
+// console.log(truck.year); // 2003
+
+// let car = new Car(2015);
+// console.log(car.year); // 2015
+
+
+
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//   }
+//   static genericGreeting() {
+//     console.log(`hello everybody`)
+//   }
+//   personalGreeting() {
+//     console.log(`Hello. My name is ${this.name}`)
+//   }
+// }
+
+// let kitty = new Cat("Sophie");
+// Cat.genericGreeting();
+// kitty.personalGreeting();
+
+
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//   }
+//   rename(newName) {
+//     return this.name = newName;
+//   }
+// }
+// Cat.genericGreeting = function() {
+//   return `Hello! I'm a cat ${this.constructor.name}`
+// }
+// let kitty = new Cat('Sophie');
+// console.log(kitty.name); // Sophie
+// kitty.rename('Chloe');
+// console.log(Cat.genericGreeting()); // Chloe
+
+// function Person(name = "John Doe") {
+//   this.name = name;
+// }
+// let person1 = new Person();
+// let person2 = new Person("Pepe");
+
+// console.log(person1.name); // John Doe
+// console.log(person2.name); // Pepe
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//     // console.log(`I am a cat!`)
+//   }
+//   greet() {
+//     console.log(`I am a cat and my name is ${this.name}`)
+//   }
+// }
+// function Cat(name) {
+//   this.name = name;
+//   console.log(`I am a cat! My name is ${this.name}`)
+// }
+// let kitty = new Cat("Sophie");
+// console.log(kitty.greet())
+// console.log("Hello".constructor.name);
+// console.log([1,2,3].constructor.name);
+// console.log({name: 'Srdjan'}.constructor.name);
+
+// const Speed = {
+//   goFast() {
+//     console.log(`I'm a ${this.constructor.name} and going super fast!`);
+//   }
+// };
+
+// class Car {
+//   goSlow() {
+//     console.log(`I'm safe and driving slow.`);
+//   }
+//   sound() {
+//     console.log(`beep`)
+//   }
+// }
+
+// class Truck {
+//   goVerySlow() {
+//     console.log(`I'm a heavy truck and like going very slow.`);
+//   }
+//   sound() {
+//     console.log(`honk`)
+//   }
+// }
+// Object.assign(Car.prototype,Speed)
+// Object.assign(Truck.prototype,Speed)
+
+// let foo = new Car();
+// let bar = new Truck();
+
+// console.log(foo.sound(),bar.sound())
+// class Greet {
+
+
+//   greet(message) {
+//     console.log(message)
+//   }
+// }
+// class Hello extends Greet {
+//   hi() {
+//     this.greet("Hello")
+//   }
+// }
+// class Goodbye extends Greet {
+//   bye() {
+//     this.greet("Goodbye")
+//   }
+// }
+
+// let foo = new Hello();
+// let bar = new Goodbye()
+
+// bar.bye()
+// foo.hi()
+// function createPet(animal,name) {
+//   return {
+//     animal,
+//     name,
+//     sleep: function() {
+//       console.log( `Iam sleeping`)
+//     },
+//     wake: function() {
+//       console.log( `I am awake`)
+//     }
+//   }
+// }
+
+// let pudding = createPet("Cat", "Pudding");
+// console.log(`I am a ${pudding.animal}. My name is ${pudding.name}.`);
+// pudding.sleep(); // I am sleeping
+// pudding.wake();  // I am awake
+
+// let neptune = createPet("Fish", "Neptune");
+// console.log(`I am a ${neptune.animal}. My name is ${neptune.name}.`);
+// neptune.sleep(); // I am sleeping
+// neptune.wake();  // I am awake
+
+// const PetPrototype = {
+
+//     init(animal,name) {
+//     this.animal = animal;
+//     this.name = name;
+//     return this;
+//     },
+//     sleep: function() {
+//       return `I am sleeping`
+//     },
+//     wake: function() {
+//       return `I am awake`
+//     }
+
+// }
+
+// let pudding = Object.create(PetPrototype).init("Cat", "Pudding");
+// console.log(`I am a ${pudding.animal}. My name is ${pudding.name}.`);
+// console.log(
+
+//   pudding.sleep(), // I am sleeping
+//   pudding.wake(),  // I am awake
+//   )
+
+// let neptune = Object.create(PetPrototype).init("Fish", "Neptune");
+// console.log(`I am a ${neptune.animal}. My name is ${neptune.name}.`);
+// console.log(
+
+//   neptune.sleep(), // I am sleeping
+//   neptune.wake(),  // I am awake
+//   )
+
+
+// // Attributes
+// //   Title: Mythos
+// //   Author: Stephen Fry
+
+// // Behavior:
+// //   Get Description
+
+// // -----------------------------
+// // Attributes
+// //   Title: Me Talk Pretty One Day
+// //   Author: David Sedaris
+
+// // Behavior:
+// //   Get Description
+
+// // -----------------------------
+// // Attributes
+// //  Title: Aunts aren't Gentlemen
+// //  Author: PG Wodehouse
+
+// //  Behavior:
+// //    Get Description
+
+
+// function Books(title,author,read = false) {
+//      this.title = title;
+//      this.author = author;
+//      this.read = read;
+// }
+// Books.prototype.attributes = function(title,author) {
+//   return ` Title: ${this.title}
+//           Author: ${this.author}`
+// }
+// Books.prototype.getDescription = function() {
+//   let ending = this.read ? "have read it." : "haven't read it."
+//   return `${this.title} was written by ${this.author}. I ` + ending;
+// }
+// Books.prototype.readBook = function() {
+//   return this.read = true;
+// }
+// let book1 = new Books("Mythos","Stephen Fry")
+// console.log(book1.getDescription())
+// book1.readBook()
+// console.log(book1.getDescription())
+// function Person(name) {
+//   this.name = name;
+//   this.school = undefined;
+// }
+
+// Person.prototype.speak = function() {
+//   return `Hello, my name is ${this.name}.`;
+// };
+
+// function Child(name,school) {
+//   Person.call(this,name);
+//   this.school = school;
+// }
+
+// Child.prototype.learn = function() {
+//   return "I'm going to school!";
+// };
+
+// let child = new Child("Suzy", "PS 33");
+// console.log(child instanceof Child);                               // true
+// console.log(child instanceof Person === false);                    // true
+// console.log(Object.getPrototypeOf(child) === Child.prototype);     // true
+// console.log(Object.getPrototypeOf(child).constructor === Child);   // true
+// console.log(child.school === "PS 33");                             // true
+// console.log(child.learn() === "I'm going to school!");             // true
+// console.log();
+
+// let person = new Person("Pete");
+// console.log(person instanceof Child === false);                    // true
+// console.log(person instanceof Person);                             // true
+// console.log(Object.getPrototypeOf(person) === Person.prototype);   // true
+// console.log(Object.getPrototypeOf(person).constructor === Person); // true
+// console.log(person.school === undefined);                          // true
+// console.log(person.speak() === "Hello, my name is Pete.");         // true
 
 
 // class University {
