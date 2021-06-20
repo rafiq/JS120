@@ -350,6 +350,10 @@ maxi instanceof Dog;      // true
 // Note that instanceof still works.
 ```
 ## OLOO
+```javascript OLOO DEFINITION
+// The Objects Linking to Other Objects (OLOO) pattern of object creation uses a prototype object, an initializer method, and the Object.create method to create objects with shared behavior. The initializer customizes the state for each object, and is usually named init.
+
+```
 ```javascript Object Creation with Prototypes (OLOO) PROTOTYPE OBJECT
 // to create objects in bulk. Another pattern that we can use is the OLOO pattern: Objects Linking to Other Objects. It uses prototypes and involves extracting properties common to all objects of the same type (e.g., car objects) to a prototype object. All objects of the same type then inherit from that prototype.
 
@@ -454,7 +458,26 @@ rex.init("canine");
 console.log(rex.type);   // "canine"
 rex.breathe();           // "I'm breathing"
 ```
+```javascript ANOTHE OLOO EXAMPLE
+let Book = {
+  init(author, title, ISBN) {
+    this.author = author;
+    this.title = title;
+    this.ISBN = ISBN;
+    return this;
+  },
+
+  describe() {
+    console.log(this.title + ' was written by ' + this.author + '.');
+  },
+}
+
+let book = Object.create(Book).init("Neal Stephenson", "Snow Crash", "0-553-08853-X");
+```
 ## Constructors
+```javascript THE instanceof DEFINITION
+// The instanceof operator requires the object to the right to have a prototype property, such as a function object. In most cases, that means that the object on the right is a constructor function or class.
+```
 ```javascript
 function Dog() {
 }
@@ -486,97 +509,7 @@ let cat = new Pet('cat');
 // The function returns the object referenced by this unless the function returns an explicit object.
 // Every function has a prototype property that points to an object that contains a constructor property. The constructor property points back to the function itself. Thus, if Kumquat is a construction function, then Kumquat.prototype.constructor === Kumquat.
 ```
-```javascript
-// Factory functions instantiate and return a new object in the function body. They let us create new objects based on a predefined template. However, they have two significant downsides:
 
-// There is no way to tell whether a factory function created a given object.
-// All objects created by a factory function have separate copies of the methods, which can be redundant and wasteful.
-const animal = () => ({
-  talk: function() {
-    console.log(this.sound);
-  }
-});
-
-const dog = () => Object.create(animal(), {
-  sound: {
-    value: "woof"
-  }
-});
-
-// or...
-
-const dog2 = () => {
-  var someDog = Object.create(animal());
-  someDog.sound = "woof";
-
-  return someDog;
-};
-
-var someDog = dog();
-someDog.talk();
-
-var someDog2 = dog2();
-someDog2.talk();//woof
-
-// ! OR
-const animal = (sound) => {
-  return {
-    talk: () => console.log(sound)
-  }
-}
-const dog = () => animal('woof')
-const sniffles = dog()
-sniffles.talk() // Outputs: "woof"
-// OR
-
-// Let's build an Animal factory function:
-
-const Animal = ({color = "green", numberOfLegs = 4} = {}) => {
-  const SetColor = (newColor) => {
-    color = newColor;
-  };
-  const GetColor= () => color;
-  const GetNumberOfLegs = () => numberOfLegs;
-  const MakeSound = () => console.log("Screetch");
-  return {
-    GetColor,
-    GetNumberOfLegs,
-    MakeSound
-  }
-}
-const newCreature = Animal({color: black, numberOfLegs: 3})
-newCreature.MakeSound() // -> "Screetch"
-// And let's build a Dog factory function:
-
-const Dog = ({name = "rex", color = "black", numberOfLegs = 4} = {}) => {
-  const MakeSound = () => console.log("Woof Woof");
-  const Roll = () => console.log(`${name} made a roll!`)
-  return {
-    MakeSound,
-    Roll
-  }
-}
-const sniffles = Dog({name: "sniffles", color: black, numberOfLegs: 4})
-sniffles.MakeSound() // -> "Woof Woof"
-sniffles.Roll() // -> "sniffles made a roll!"
-// What should I do if I want to inherit all the good things I get from Animal that I have already?
-// Using ES6 Spread Syntax helps us to achieve a very neat way of doing so:
-
-const Dog = ({name = "rex", color = "black", numberOfLegs = 4} = {}) => {
-  const anAnimal = Animal({color, numberOfLegs}); // used the Animal factory!
-  const MakeSound = () => console.log("Woof Woof");
-  const Roll = () => console.log(`${name} made a roll!`)
-  return {
-    ...anAnimal, // And That's where magic happens!
-    MakeSound,
-    Roll
-  }
-}
-const sniffles = Dog({name: "sniffles", color: black, numberOfLegs: 4})
-sniffles.GetNumberOfLegs() // -> 4
-sniffles.MakeSound() // -> "Woof Woof"
-sniffles.Roll() // -> "sniffles made a roll!"
-```
 ```javascript CONSTRUCTOR EXAMPLES
 
 function Foo(parm) {
@@ -758,6 +691,72 @@ ninjaB:
   }
 
 ```
+```javascript CONSTRUCTOR FUNCTIONS MUST DO'S
+function Person(name) {
+  this.name = name;
+  this.school = undefined;
+}
+
+Person.prototype.speak = function() {
+  return `Hello, my name is ${this.name}.`;
+};
+
+// your code from the previous question.
+function Child(name, school) {
+  Person.call(this, name);
+  this.school = school;
+}
+
+// more missing code
+Child.prototype = Object.create(Person.prototype);
+Child.prototype["constructor"] = Child;
+
+Child.prototype.learn = function() {
+  return "I'm going to school!";
+};
+
+let child = new Child("Suzy", "PS 33");
+console.log(child instanceof Child);                               // true
+console.log(child instanceof Person);                              // true
+console.log(Object.getPrototypeOf(child) === Child.prototype);     // true
+console.log(Object.getPrototypeOf(child).constructor === Child);   // true
+console.log(child.school === "PS 33");                             // true
+console.log(child.learn() === "I'm going to school!");             // true
+console.log(child.speak() === "Hello, my name is Suzy.");          // true
+console.log();
+
+let person = new Person("Pete");
+console.log(person instanceof Child === false);                    // true
+console.log(person instanceof Person);                             // true
+console.log(Object.getPrototypeOf(person) === Person.prototype);   // true
+console.log(Object.getPrototypeOf(person).constructor === Person); // true
+console.log(person.school === undefined);                          // true
+console.log(person.speak() === "Hello, my name is Pete.");         // true
+console.log(person.learn === undefined);                           // true
+
+
+// Incorrect:
+
+// A: The code in this constructor returns a Person object instead of a Child object, so child instanceof Child returns false instead of true. For similar reasons, most of the rest of the checks on the child object fail, and the last one raises a TypeError. The tests on the person object never run, but they would all pass.
+
+// B: This code explicitly returns a new Person object. That object has a school property, but the property is undefined, so the test will fail.
+
+// C: This code initializes the school property before it calls the Person constructor, which, for some strange reason, sets the school property to undefined. That overrides the intended value of the school property in the object returned by Child.
+
+// Incorrect:
+// A: Object.assign with a single argument merely returns a reference to that argument. Thus, this code sets the Child prototype to the same object used as the Person prototype. That causes person instanceof Child to return true since both the Child prototype is the same object as the Person prototype.
+
+// C: Prototypal inheritance requires the Child prototype to be a reference to the Person prototype, not the Person constructor.
+
+// D: This code almost works, but it fails to reset the constructor for the Child prototype. That causes Object.getPrototypeOf(child).constructor to return Person instead of Child
+
+function Child(name, school) {
+  Person.call(this, name);
+  this.school = school;
+}
+// So when we invoke Child as a constructor, JavaScript will (among other things) create a new object and set this within the context of that function invocation to point to the newly created object. So when we invoke Person with call on line 2, and pass in this as the explicit context, that invocation of the Person function sets the name and school properties on the object created by the Child constructor (i.e. the new Child object) to whatever the second argument passed in the call is, and undefined respectively, the Child constructor function then reassigns the value of school to whatever value was the second argument to the Child constructor.
+```
+
 ## Classes
 ```javascript CONSTRUCTOR DETAILS
 // class is a function typeof class === function //true ES6 classes are merely syntactic sugar: the class statement gets translated behind the scenes to a constructor function and a prototype object, and the class name refers to the constructor function.
@@ -785,7 +784,7 @@ let cat = new Pet('cat');
 
 // A constructor that attempts to return an object will return an object of that type. Thus, dog refers to a Dog object since that's what the constructor tried to return.
 ```
-```javascript
+```javascript CLASS DECLARATION AND EXPRESSIONS EXAMPLE
 // A class declaration always begins with the keyword class at the beginning of a statement. All the other code snippets show class expressions, not class declarations.
 let Cat = class {
   // omitted code
@@ -811,6 +810,34 @@ function createClass() {
     }
   );
 };
+```
+
+```javascript CLASS EXPRESSIONS
+let Person = class {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  sayName() {
+    console.log(`My name is ${this.name}.`);
+  }
+};
+
+let Student = class extends Person {
+  constructor(name, age, semester) {
+    super(name, age);
+    this.semester = semester;
+  }
+
+  enrollInCourse(courseNumber) {
+    console.log(`${this.name} has enrolled in course ${courseNumber}.`);
+  }
+};
+
+let student = new Student('Kim', 22, 'Fall');
+student.sayName(); // logs 'My name is Kim.'
+student.enrollInCourse('JS120'); // logs 'Kim has enrolled in course JS120.'
 ```
 ```javascript FROM constructor functions TO CLASS DECLARATION EXAMPLES
 // Inheritance with Class Declarations
@@ -1375,7 +1402,97 @@ let greeterEn = createGreeter('en');
 greeterEn(); // logs 'Hello!'
 // This code doesn't provide a significant improvement or convenience for the developer, but it does illustrate how we might use a function that returns another function in our code.
 ```
+```javascript ADVANCED FUNCTION FACTORIES
+// Factory functions instantiate and return a new object in the function body. They let us create new objects based on a predefined template. However, they have two significant downsides:
 
+// There is no way to tell whether a factory function created a given object.
+// All objects created by a factory function have separate copies of the methods, which can be redundant and wasteful.
+const animal = () => ({
+  talk: function() {
+    console.log(this.sound);
+  }
+});
+
+const dog = () => Object.create(animal(), {
+  sound: {
+    value: "woof"
+  }
+});
+
+// or...
+
+const dog2 = () => {
+  var someDog = Object.create(animal());
+  someDog.sound = "woof";
+
+  return someDog;
+};
+
+var someDog = dog();
+someDog.talk();
+
+var someDog2 = dog2();
+someDog2.talk();//woof
+
+// ! OR
+const animal = (sound) => {
+  return {
+    talk: () => console.log(sound)
+  }
+}
+const dog = () => animal('woof')
+const sniffles = dog()
+sniffles.talk() // Outputs: "woof"
+// OR
+
+// Let's build an Animal factory function:
+
+const Animal = ({color = "green", numberOfLegs = 4} = {}) => {
+  const SetColor = (newColor) => {
+    color = newColor;
+  };
+  const GetColor= () => color;
+  const GetNumberOfLegs = () => numberOfLegs;
+  const MakeSound = () => console.log("Screetch");
+  return {
+    GetColor,
+    GetNumberOfLegs,
+    MakeSound
+  }
+}
+const newCreature = Animal({color: black, numberOfLegs: 3})
+newCreature.MakeSound() // -> "Screetch"
+// And let's build a Dog factory function:
+
+const Dog = ({name = "rex", color = "black", numberOfLegs = 4} = {}) => {
+  const MakeSound = () => console.log("Woof Woof");
+  const Roll = () => console.log(`${name} made a roll!`)
+  return {
+    MakeSound,
+    Roll
+  }
+}
+const sniffles = Dog({name: "sniffles", color: black, numberOfLegs: 4})
+sniffles.MakeSound() // -> "Woof Woof"
+sniffles.Roll() // -> "sniffles made a roll!"
+// What should I do if I want to inherit all the good things I get from Animal that I have already?
+// Using ES6 Spread Syntax helps us to achieve a very neat way of doing so:
+
+const Dog = ({name = "rex", color = "black", numberOfLegs = 4} = {}) => {
+  const anAnimal = Animal({color, numberOfLegs}); // used the Animal factory!
+  const MakeSound = () => console.log("Woof Woof");
+  const Roll = () => console.log(`${name} made a roll!`)
+  return {
+    ...anAnimal, // And That's where magic happens!
+    MakeSound,
+    Roll
+  }
+}
+const sniffles = Dog({name: "sniffles", color: black, numberOfLegs: 4})
+sniffles.GetNumberOfLegs() // -> 4
+sniffles.MakeSound() // -> "Woof Woof"
+sniffles.Roll() // -> "sniffles made a roll!"
+```
 ## Methods and properties; instance and static methods and properties
 ```javascript INSTANCES PROPERTIES
 // Instance methods are stored either as part of an object or somewhere in the object's prototype chain.
@@ -1633,6 +1750,7 @@ Array.prototype.first = function() {
 let string = 'EEE';
 Array.prototype.every.call(string, char => char === 'E'); // => true
 
+// We can shorten that expression noticeably by using an empty array instead of Array.prototype as the calling object:
 [].every.call(string, char => char === 'E'); // => true
 
 Array.prototype.every = function(callback) {
@@ -1693,6 +1811,34 @@ baz.qux()
 
 // The combination of constructors and prototypes provides a way of mimicking classical inheritance with JavaScript. This lets us create sub-type objects, which can 'inherit' methods from a super-type object. This is one way of facilitating code re-use.
 ```
+```javascript SIMPLE EXAMPLE
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+Person.prototype.toString = function() {
+  return `My name is ${this.name} and I'm ${this.age} years old.`;
+};
+// ? OR
+
+function Human() {}
+Human.prototype.myName = function() { return this.name; };
+Human.prototype.myAge = function() { return this.age; };
+
+function Person() {}
+Person.prototype = Object.create(Human.prototype);
+Person.prototype.constructor = Person;
+Person.prototype.toString = function() {
+  return `My name is ${this.myName()} and I'm ${this.myAge()} years old.`;
+};
+
+let will = new Person();
+will.name = 'William';
+will.age = 28;
+will.toString(); // => My name is William and I'm 28 years old.
+```
+
 ```javascript EXAMPLES
 // pseudo-classical inheritance, also called constructor inheritance. When people talk about inheritance in the context of JavaScript, they generally mean this type of inheritance. In pseudo-classical inheritance, a constructor's prototype inherits from another constructor's prototype; that is, a sub-type inherits from a super-type. The term "pseudo-classical" refers to the fact that constructor inheritance mimics classes from other OOP languages, but doesn't actually use classes.
 
@@ -1927,6 +2073,42 @@ class Wedding {
 
 // Though there is no inheritance in this example, each of the preparer-type classes provides a prepare method. We still have polymorphism since all of the objects respond to the prepare method call. If we later need to add another preparer type, we can create another class and implement the prepare method to perform the appropriate actions.
 ```
+
+```javascript DUCK TYPING EXMAMPLE WITH CONSTRUCTOR FUNCTIONS
+function Person(name){
+    this.name = name
+}
+Person.prototype.sayHi = function(){
+    return 'Hi, I am ' + this.name
+}
+
+var jack = new Person('Jack')
+var jill = new Person('Jill')
+
+jack.sayHi()// 'Hi, I am Jack'
+jill.sayHi()// 'Hi, I am Jill'
+
+function sing() {
+    return this.name + ' sings!'
+}
+
+sing.apply(jack)// 'Jack sings!'
+
+function Flower(name) {
+    this.name = name
+}
+
+var tulip = new Flower('Tulip')
+
+jack.sayHi.apply(tulip)// 'Hi, I am Tulip'
+
+function singTo(other) {
+    return this.name + ' sings for ' + other.name
+}
+
+singTo.apply(jack, [jill])// 'Jack sings for Jill'
+sing.call(jack, jill)// 'Jack sings for Jill'
+```
 ```javascript SAME METHOD NAME AND ARGUMENTS DOES NOT MAKE POLYMORPHISM
 // Note that merely having two different objects that have a method with the same name and compatible arguments doesn't mean that you have polymorphism. In theory, those methods might be used polymorphically, but that doesn't always make sense. Consider the following two classes:
 
@@ -2019,6 +2201,7 @@ pete.pets.push(dog);
 ## multiple inheritance
 ## Mix-ins; mix-ins vs. inheritance THIS VERY MUCH SEEMS LIKE THE DIFFERENCE OF USING PROPERTIES ON A PROTOTYPE OR CREATING ACTIONS AND THEN ADDING THOSE ACTIONS TO THE INSTANCES
 ```javascript MIXINS DEFINITIONS
+// Mixins are more appropriate in a has-a relationship
 // There's a limitation with the inheritance pattern, which is that objects can only directly 'inherit' from one super-type object. In other words, an object can have only one prototype object. Mixins provide a way of addressing this limitation. The mix-in pattern involves creating a mix-in object containing certain methods, and using Object.assign() to mix that object into another object.
 ```
 ```javascript EXAMPLE USING INHERITANCE FOR MULTIPLE ADD INS VS MIX INS OBJECT.ASSIGN
@@ -2196,6 +2379,31 @@ global.foo; // => 'bar' (in Node)
 window.foo; // => 'bar' (in a browser)
 ```
 ## Method and property lookup sequence
+```javascript METHOD CHAIN LOOK UP
+const Speed = {
+  goFast() {
+    console.log(`I'm a ${this.constructor.name} and going super fast!`);
+  }
+};
+
+class Car {
+  goSlow() {
+    console.log(`I'm safe and driving slow.`);
+  }
+}
+
+Object.assign(Car.prototype, Speed);
+
+class Truck {
+  goVerySlow() {
+    console.log(`I'm a heavy truck and like going very slow.`);
+  }
+}
+
+Object.assign(Truck.prototype, Speed);
+'goFast' in smallCar;  // => true
+'goFast' in blueTruck; // => true
+```
 ```javascript OVERIDING PROTOTYPES (METHODS AND PROPERTIES)
 // Inheriting methods from a prototype doesn't mean that the inheriting object is stuck with those methods. JavaScript objects are incredibly dynamic and flexible. Two objects created with the same constructor may end up looking completely different from each other because of changes and additions made after constructing the object. For instance, suppose we have a dexter dog that has an unusually loud and deep bark. We want to change the bark method to log WOOF! instead of Woof!. We can do that easily by defining a custom bark method on dexter.
 
@@ -2361,7 +2569,9 @@ foo();
 // => hello, John Doe
 // => hello, John Doe
 
-// bind has one significant advantage: once you bind a context to a function, that binding is permanent and does not need to be repeated if it gets called more than once. The disadvantage of bind is that it is no longer possible to determine the context by looking at the invocation of the final function.
+//
+
+// has one significant advantage: once you bind a context to a function, that binding is permanent and does not need to be repeated if it gets called more than once. The disadvantage of bind is that it is no longer possible to determine the context by looking at the invocation of the final function.
 ```
 #### Context Loss 2 nested functions suffer from context loss.
 ```javascript
@@ -2536,6 +2746,52 @@ foo.apply(bar, [1, 2, 3]);
 
 // Both call and apply set the execution context for a function invocation.
 ```
+```javascript USING CALL TO SUPER PROPERTIES AND METHODS FROM A SUPER CLASS IN CONSTRUCTOR FUNCTION
+function Rectangle(length, width) {
+  this.length = length;
+  this.width = width;
+}
+
+Rectangle.prototype.getArea = function() {
+  return this.length * this.width;
+};
+
+Rectangle.prototype.toString = function() {
+  return `[Rectangle ${this.length} x ${this.width}]`;
+};
+
+// rect test code omitted
+
+function Square(size) {
+  Rectangle.call(this, size, size);
+}
+
+Square.prototype = Object.create(Rectangle.prototype);
+Square.prototype.constructor = Square;
+
+Square.prototype.toString = function() {
+  return `[Square ${this.length} x ${this.width}]`;
+};
+
+// sqr test code omitted
+
+function Super(x) { ... }
+    Super.prototype.foo = ...
+
+function Sub(x, y) {
+    Sub.superclass.constructor.call(this, x); // SUPER THE `X` PROPERTY FROM THE SUPER TYPE
+}
+
+Sub.superclass = Super.prototype;
+Sub.prototype = Object.create(Sub.superclass);
+Sub.prototype.constructor = Sub;
+
+    // COPYING METHODS WITH CALL AND CONSTRUCTOR FUNCTIONS
+Sub.prototype.foo = function (...) {
+    Sub.superclass.foo.apply(this, arguments);
+};
+```
+
 ```javascript
 // / There are, however, several ways to subvert this behavior. You can provide an explicit context to any function or method, and it doesn't have to be the global object or the object that contains the method. Instead, you can use any object -- or even null -- as the execution context for any function or method. There are two main ways to do that in JavaScript: call and apply.
 
