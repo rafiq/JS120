@@ -84,7 +84,7 @@ corolla.started; // => true
 
 // JavaScript won't complain about a missing new keyword.
 Car(); // => undefined
-// Instead, it acts like an ordinary function. In particular, the value of this depends on how the function is called. Crucially, it won't get set to reference the new object.
+// ! Instead, it acts like an ordinary function. In particular, the value of this depends on how the function is called. Crucially, it won't get set to reference the new object.
 // Furthermore, since functions that don't return an explicit value return undefined, calling a constructor without new also returns undefined. When you use new, however, the function doesn't have to return anything explicitly: it returns the newly created object automatically.
 
 // You can use new to call almost any JavaScript function that you create. However, you cannot call arrow functions with new since they use their surrounding context as the value of this:
@@ -288,7 +288,7 @@ Object.getPrototypeOf(dexter).bark === Dog.myPrototype.bark; // true
 Object.getPrototypeOf(biggie).bark === Dog.myPrototype.bark; // true
 ```
 ```javascript TWO "PROTOTYPES"
-"prototype" to refer to 2 distinct but related concepts:
+// "prototype" to refer to 2 distinct but related concepts:
 
 // If bar is an object, then the object from which bar inherits is the object prototype. By default, constructor functions set the object prototype for the objects they create to the constructor's prototype object.
 
@@ -1061,8 +1061,7 @@ let a = {
   a.baz = 12;
   console.log(b.baz); // => 12
 //   ?CONNECTION: this is similar to how objects in JS are pointing to the same reference point which means that if you change the reference point in any of the variables then it is changing the same reference point.
-// Interesting! Object b wasn't mutated! When assigning a property on a JavaScript object, it always treats the property as an "own" property. That is, it assumes that the property belongs to the object named to the left of the property name. Even if the prototype chain already has a property with that name, it assigns the "own" property. Here, foo becomes an "own" property of c:
-
+==// Interesting! Object b wasn't mutated! When assigning a property on a JavaScript object, it always treats the property as an "own" property. That is, it assumes that the property belongs to the object named to the left of the property name. Even if the prototype chain already has a property with that name, it assigns the "own" property. Here, foo becomes an "own" property of c:
 ```
 ```javascript
 // In this code, object c inherits from object b which, in turn, inherits from a. Stated differently, b is the prototype of c and a is the prototype of b. All properties that you can access on a or b are now available on c. We say that objects b and a are part of the prototype chain of object c. The complete prototype chain also includes the default prototype, which is the prototype of object a in this case.
@@ -1182,7 +1181,6 @@ var terrier = Object.create(dog);
 console.log(Object.getPrototypeOf(terrier) === dog)    // true
 console.log(Object.getPrototypeOf(terrier) === animal) // false
 ```
-
 ```javascript Some Object.prototype built in methods
 // Object.prototype object is at the top of all JavaScript prototype chains
 // Object.prototype.toString() returns a string representation of the object.
@@ -1211,14 +1209,12 @@ if (Object.getPrototypeOf(obj) && obj.isPrototypeOf(car)) {
 // When you access a property on an object, JavaScript looks for the property first in the object, then its prototype chain, all the way up to Object.prototype.
 
 ```
-
 ```javascript  Object.getPrototypeOf({})
 
 // Without running the code, what value does Object.getPrototypeOf({}) return?
 // A reference to the default prototype object. The object is, in fact, not empty, but has a variety of methods like hasOwnProperty and toString().
 
 ```
-
 ### The JS engine and two passes
 ```javascript Hoisting and Execution
 // This code works since the JavaScript engine runs our code in two passes. During the first pass, it does some preparatory work, while the second executes the code. One action that occurs during the first pass is called hoisting; the engine effectively moves function declarations to the top of the scope in which they're defined. The result is that the above code acts as though you wrote it like this:
@@ -1327,13 +1323,13 @@ animal.breathe();          // "I'm breathing"
 
 console.log(animal.constructor === Animal);  // true
 
-console.log(animal.constructor)              // f Animal() {
-                                             //   this.type = "mammal";
-                                             //
-                                             //   this.breathe = function() {
-                                             //     console.log("I'm breathing");
-                                             //   }
-                                             // }
+console.log(animal.constructor) // f Animal() {
+                                //   this.type = "mammal";
+                                //
+                                //   this.breathe = function() {
+                                //     console.log("I'm breathing");
+                                //   }
+                                // }
 
 let ninjaB = new ninjaA.constructor();
 // Does your answer use Object.create instead?
@@ -2123,10 +2119,9 @@ class Blinds {
 // However, it's unlikely that this would ever make sense in real code. Unless you're actually calling the method in a polymorphic manner, you don't have polymorphism. In practice, polymorphic methods are intentionally designed to be polymorphic; if there's no intention, you probably shouldn't use them polymorphically.
 ```
 ## Collaborator objects
-Objects that help provide state within another object are called collaborator objects, or more simply, collaborators. Collaboration is all about objects working together in some manner. A collaborator works in conjunction -- in collaboration -- with the object to which it belongs.
+<!-- Objects that help provide state within another object are called collaborator objects, or more simply, collaborators. Collaboration is all about objects working together in some manner. A collaborator works in conjunction -- in collaboration -- with the object to which it belongs. -->
 
-//   We often talk of collaborators in the context of custom objects like pet, but collaborators don't have to be custom objects. They can be built-in objects like arrays and dates, as well. In principle, collaborators don't have to be objects at all; primitives like strings and numbers frequently collaborate with objects and combine to form the state of those objects.
-
+// We often talk of collaborators in the context of custom objects like pet, but collaborators don't have to be custom objects. They can be built-in objects like arrays and dates, as well. In principle, collaborators don't have to be objects at all; primitives like strings and numbers frequently collaborate with objects and combine to form the state of those objects.
 ```javascript
 
 function makeBook() {
