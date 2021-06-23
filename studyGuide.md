@@ -2331,8 +2331,6 @@ obj.foo(); //obj
 // Since we invoke foo with an implicit context of obj, JavaScript runs the code with the execution context set to obj. Since this refers to the current execution context while the method is running, the method returns the obj object.`
 
 ```
-
-
 ```javascript
 // The global object is available everywhere in a JavaScript program, including both the top level and inside other functions and methods. If you don't provide an explicit execution context, JavaScript uses the global object as the value for this. However, you can access the global object anywhere merely by using its name (global or window).
 
@@ -2563,8 +2561,6 @@ foo();
 // => hello, John Doe
 // => hello, John Doe
 // => hello, John Doe
-
-//
 
 // has one significant advantage: once you bind a context to a function, that binding is permanent and does not need to be repeated if it gets called more than once. The disadvantage of bind is that it is no longer possible to determine the context by looking at the invocation of the final function.
 ```
