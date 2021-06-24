@@ -1230,7 +1230,8 @@ bar();         // This does not work
 ```
 ### Arrow Functions
 There's no declaration syntax for arrow functions; arrow functions are always function expressions. That means that we often pass them around or assign them to variables or properties. Also, arrow functions are always anonymous: there's no way to define a named arrow function. Arrow functions are either immediately invoked, assigned to variables or properties, or passed around as arguments and return values. We'll discuss immediately invoked functions in a later course.
-```javascript
+
+  ```javascript
 function say(words) {
   console.log(words);
 }
