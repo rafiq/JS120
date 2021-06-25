@@ -531,7 +531,7 @@ class Foo {
     this.parm = parm;
   }
 
-  static bar() {
+static bar() {
     // omitted code
   }
 
@@ -2307,9 +2307,25 @@ Object.assign(Goose.prototype, Swimmable, Flyable);
 // You can add them to objects and execute them in the respective object's context.
 // You can remove them from their objects, pass them around, and execute them in entirely different contexts.
 // They're initially unbound but dynamically bound to a context object at execution time.
+// You can remove them from their objects, pass them around, and execute them in entirely different contexts.
+//
 ```
 ## Higher-order functions
+Examples of higher order functions
+<!-- ````bind is a higher order function because it returns a function -->
+```javascript
+Function.prototype.bind = function (...args) {
+  let fn = this;
+  let context = args.shift();
 
+  return function () {
+    return fn.apply(context, args);
+  };
+};
+```
+arrayOfNums.map(num => num * num);
+arrayOfStrings.map(string => string.toUpperCase());
+<!-- The map method, along with several other array methods, is a higher-order function since it takes another function as an argument. -->
 ```javascript
 // A Higher-order function is one that takes a function as an argument or returns a function value.
 
@@ -2318,6 +2334,26 @@ Object.assign(Goose.prototype, Swimmable, Flyable);
 // A function that returns a function is a higher-order function.
 
 // A higher-order function must either accept one or more function arguments, return a function value, or do both.
+```
+```javascript FUNCTION RETURNING A FUNCTION
+function createGreeter(language) {
+  switch (language) {
+    case 'en':
+      return () => console.log('Hello!');
+    case 'es':
+      return () => console.log('Hola!');
+    case 'fr':
+      return () => console.log('Bonjour!');
+  }
+}
+
+let greeterEs = createGreeter('es');
+greeterEs(); // logs 'Hola!'
+greeterEs(); // logs 'Hola!'
+greeterEs(); // logs 'Hola!'
+
+let greeterEn = createGreeter('en');
+greeterEn(); // logs 'Hello!'
 ```
 ## The global object
 ```javascript
@@ -2713,6 +2749,82 @@ obj.foo(); // => undefined
 
 // "Arrow function expressions are ill suited as methods, and they cannot be used as constructors."
 ```
+#### Context loss Passing Functions as arguments
+```javascript
+// preserve CONTEXT IN OUTER SCOPE
+let obj = {
+  a: 'hello',
+  b: 'world',
+  foo: function() {
+    let self = this;
+    [1, 2, 3].forEach(function(number) {
+      console.log(String(number) + ' ' + self.a + ' ' + self.b);
+    });
+  },
+};
+
+obj.foo();
+
+// => 1 hello world
+// => 2 hello world
+// => 3 hello world
+
+// `USE BIND
+let obj = {
+  a: 'hello',
+  b: 'world',
+  foo: function() {
+    [1, 2, 3].forEach(function(number) {
+      console.log(String(number) + ' ' + this.a + ' ' + this.b);
+    }.bind(this));
+  },
+};
+
+obj.foo();
+
+// => 1 hello world
+// => 2 hello world
+// => 3 hello world
+
+// USE AN ARROW FUNCTION
+let obj = {
+  a: 'hello',
+  b: 'world',
+  foo: function() {
+    [1, 2, 3].forEach(number => {
+      console.log(String(number) + ' ' + this.a + ' ' + this.b);
+    });
+  },
+};
+
+obj.foo();
+
+// => 1 hello world
+// => 2 hello world
+// => 3 hello world
+
+// USE THE thisArg SECOND OPTIONAL ARGUMENT
+let obj = {
+  a: 'hello',
+  b: 'world',
+  foo: function() {
+    [1, 2, 3].forEach(function(number) {
+      console.log(String(number) + ' ' + this.a + ' ' + this.b);
+    }, this);
+  },
+};
+
+obj.foo();
+
+// => 1 hello world
+// => 2 hello world
+// => 3 hello world
+```
+<!-- THE SAME PROBLEM IN DIFFERENT WAYS -->
+array.forEach(obj.logData);
+let logData = obj.logData;
+array.forEach(logData);
+
 
 ## call, apply, and bind
 ```javascript Call and Apply Definitions
@@ -3066,6 +3178,8 @@ String("abc");         // 'abc'
 // It lets programmers think about a problem at a higher-level of abstraction, which helps them break down and solve the problem.
 // OOP helps programmers write programs that reduce the dependencies in a program, which makes maintenance easier.
 // Done right, OOP makes code flexible, easy to understand, and easy to change.
+// model real life situations so can simplify more complex problems
+// Many objects allows us to break up the problem into parts.
 
 // Disadvantages
 // OOP programs are often much larger than the equivalent procedural program.
@@ -3083,3 +3197,12 @@ String("abc");         // 'abc'
 ```javascript
 
 ```
+23. In JS there are some confusions about prototypes and many terms that sounds or looks similar. Explain shortly what the following concepts relates to:
+    - prototype - object that you are inheriting from another object
+    - .prototype property - same as line 7.
+    - `[[Prototype]]` property - internal hidden property in objects and functions that keeps track of the prototype.
+    - `__proto__` - unhidden versino of line 4.
+    - Object prototype - same as line 2
+    - Function prototype -
+
+
