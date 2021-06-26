@@ -73,6 +73,13 @@ corolla.started; // => true
 
 // Number, String, Boolean, are all primitive types. If you return one of these types of values from a constructor, it would be ignored and the constructor would go back to its normal behavior of returning the this object.
 ```
+```javascript FUNCTION PROTOTYPE DEFINITION AKA CONSTRUCTOR FUNCTION PROTOTYPE AKA [[PROTOTYPE]] PROPERTY
+// What makes constructors special is a characteristic of all function objects in JavaScript: they all have a prototype property that we call the function prototype to distinguish them from the prototypes used when creating ordinary objects.
+
+// If bar is an object, then the object from which bar inherits is the object prototype. By default, constructor functions set the object prototype for the objects they create to the constructor's prototype object.
+
+// The constructor's prototype object, also called the function prototype, is an object that the constructor uses as the object prototype for the objects it creates. In other words, each object that the constructor creates inherits from the constructor's prototype object. The constructor stores its prototype object in its prototype property; that is, if the constructor's name is Foo, then Foo.prototype references the constructor's prototype object.
+```
 ```javascript MAKING THE CONSTRUCTOR PROCESS
 // JavaScript takes the following steps when you invoke a function with new:
 
@@ -380,7 +387,7 @@ car1.stop();
 car1.started; // => false
 // Calling start and stop on the car1 object changes the state of car1 even though those methods don't belong to car1. That shouldn't come as a surprise since we're using car1 as the execution context for the calls. When we call these methods, this is set to car1, so the methods change the started property in car1.
 ```
-```javascript init in the Prototype Object
+```javascript OLOO EXAMPLE init in the Prototype Object
 // The common method to automate the properties of an object is the init
 // most common technique uses an init method on the prototype object:
 let carPrototype = {
@@ -1297,6 +1304,30 @@ function createPerson(firstName, lastName = '') {
 
 // There is no way to inspect an object and learn whether we created it with a factory function. That effectively makes it impossible to identify the specific "type" of the object; at best, you can only determine that an object has some specific characteristics.
 ```
+
+```javascript FACTORY FUNCTIONS EXAMPLE
+function createCar(make, model, year) {
+  return {
+    make, // shorthand for `make: make`
+    model,
+    year,
+    started: false,
+
+    start() {
+      this.started = true;
+    },
+
+    stop() {
+      this.started = false;
+    },
+  };
+}
+
+let corolla = createCar('Toyota', 'Corolla', 2016);
+let leaf = createCar('Nissan', 'LEAF', 2018);
+let nova = createCar('Chevrolet', 'Nova', 1974);
+
+```
 ```javascript FACTORY FUNCTIONS WITH "new" (use this and no "return") AKA CONSTRUCTOR FUNCTIONS!!!!!
 // There is a keyword new in JavaScript that when used before a function call will create a new object and execute all the code in that function. Any reference to this within the body of the function will point to the new object. Finally, this new object will be returned if no other object is explicitly returned. Let’s see this with some code.
 function Animal() {
@@ -1741,7 +1772,10 @@ Array.prototype.first = function() {
 }
 
 [1, 2, 3].first(); //=> 1
+```
 
+#### "method borrowing"
+```javascript
 // Extending built-in objects is interesting to study, but it's best to avoid doing so. Adding a method like first to an array object can confuse other developers working on your project. It can lead to errors when other developers forget or don't realize that your array has an unexpected bonus.
 // Array methods, however, are surprisingly useful with String objects. We can borrow many array methods to manipulate String objects. Consider the following code:
 let string = 'EEE';
