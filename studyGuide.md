@@ -1833,6 +1833,22 @@ let foo = {
 
 let baz = Object.create(foo);
 baz.qux()
+
+// Here, the will object inherits from the personPrototype object which, in turn, inherits from humanPrototype. will's [[Prototype]] property refers to personPrototype, and the [[Prototype]] property of personPrototype refers to humanPrototype. When we invoke toString, it finds the methods myName and myAge on the humanPrototype object.
+let humanPrototype = {
+  myName() { return this.name; },
+  myAge() { return this.age; },
+};
+
+let personPrototype = Object.create(humanPrototype);
+personPrototype.toString = function() {
+  return `My name is ${this.myName()} and I'm ${this.myAge()} years old.`;
+};
+
+let will = Object.create(personPrototype);
+will.name = 'William';
+will.age = 28;
+will.toString(); // => My name is William and I'm 28 years old.
 ```
 #### Pseudo-Classical inheritance
 ```javascript DEFINITION
@@ -1910,7 +1926,16 @@ hello.greet('Goodbye');//=> "Goodbye"
 Hello.hi();//=> This code also raises a TypeError. The hi method is defined on Hello.prototype, not on the Hello constructor itself. Thus, only instances of Hello have access to hi.
 ```
 ```javascript
-
+function Mammal(){
+}
+Mammal.prototype.breathe = function(){
+    // do some breathing
+}
+function Cat(){
+}
+Cat.prototype = new Mammal()
+Cat.prototype.constructor = Cat
+// now cat too can breathe!
 // Pseudo-Classical:
 // New objects are created from constructor functions using the keyword new .
 // Calling new on a function creates a new object. The code within the function executes with the execution context (this) set to the new object. The newly created object’s __proto__ property is set to point at the object referenced by the functions prototype property. The newly created object is then implicitly returned.
