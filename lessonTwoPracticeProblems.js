@@ -919,3 +919,22 @@
 // Copy Code
 // let tv = new Television();
 // tv.model();
+
+// const Animal = function(species) {
+//   this.species = species;
+//   return species;
+// };
+
+// Animal.prototype.sleep = function() {
+//   console.log(`The ${this.species} is sleeping`);
+// };
+
+// let lion = new Animal('Panthera leo');
+// console.log(lion.sleep()) // TypeError
+
+function convertCase(char) {
+  return char.toLowerCase() === char ? char.toUpperCase() : char.toLowerCase() ;
+}
+let str = "Naveed";
+
+console.log([1,2.3].map.call(str,convertCase))
