@@ -215,7 +215,18 @@ Dog.prototype.constructor = Dog;
 let monkey  = new Animal();
 let bear = new Mammal();
 let benji = new Dog();
-console.log(monkey.speak(),bear.speak(),benji.speak())
+// console.log(monkey.speak(),bear.speak(),benji.speak())
+console.log(isThereThisProtoUpTheChain(Mammal,benji))
+
+function isThereThisProtoUpTheChain(needle, haystack) {
+    while (haystack) {
+        console.log(haystack.constructor.name,needle.name)
+        if (haystack.constructor.name === needle.name) return true;
+
+        haystack = Object.getPrototypeOf(haystack)
+    }
+    return false;
+}
 // console.log(Mammal)
 
 // function Animal() {
@@ -240,3 +251,88 @@ console.log(monkey.speak(),bear.speak(),benji.speak())
 // ! Unusual things about arrow functions
 // ? Pass a class as an argument and return a new object from a function
 
+let callPerson = function(phoneNumber) {
+    console.log("Dialing " + phoneNumber);
+  }
+
+let emailPerson = function(emailAddress) {
+    console.log("Emailing " + emailAddress);
+  }
+
+  class Person {
+    constructor(name, contactInfo, preferredContact) {
+      this.name = name;
+      this.contactInfo = contactInfo;
+      this.preferredContact = preferredContact;
+    }
+
+    makeContact() {
+      this.preferredContact(this.contactInfo);
+    }
+  }
+
+  let phoneBook = [];
+
+  let rafiq = new Person("Rafiq","rafiq.kamal@gmail.com",emailPerson);
+  let arjun = new Person("Arjun","CAN-555-5555",callPerson);
+  let lawerence = new Person("Lawerence", "510-451-3821",callPerson)
+
+phoneBook.push(rafiq,arjun,lawerence);
+
+phoneBook.forEach(person => {
+    console.log(person.makeContact())
+})
+
+// ? // Isn't this an example of duck typing?
+let cat = {
+    name: 'Fluffy',
+
+    makeNoise() {
+      console.log('Meow! Meow!');
+    },
+
+    eat() {
+      // implementation
+    },
+  };
+
+  let dog = {
+    name: 'Maxi',
+
+    makeNoise() {
+      console.log('Woof! Woof!');
+    },
+
+    eat() {
+      // implementation
+    },
+  };
+
+  let pete = {
+    name: 'Pete',
+    pets: [],
+  };
+
+  pete.pets.push(cat);
+  pete.pets.push(dog);
+  console.log(pete.pets[0].makeNoise(),pete.pets[1].makeNoise()) // Meow! Meow! , Woof Woof
+
+//   ? How would we set up a system with paid members and unpaid members and their status having the ability to toggle on and off?
+
+class User {}
+class paidUser extends User {}
+class unPaidUser extends User {}
+
+let user1 = new unPaidUser();
+Object.assign(user1,paidUser.prototype) //?????
+
+// OR
+const Swimmable = {
+    swim() {};
+  }
+
+class Bird {}
+class Penguin extends Bird {}
+Object.assign(Penguin.prototype, Swimmable); // Analgous to paidUser or has the capabilities
+// How do we take that away?
+Penguin.prototype.Swimmable = null; //????
