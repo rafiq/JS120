@@ -1373,7 +1373,7 @@ biggie.bark(); // 'Yip!'
 // It sets Foo.prototype as the prototype for the new object. That is, the new object inherits from the object referenced by Foo.prototype.
 // It sets the execution context (this) for the function to point to the new object.
 // It invokes the function.
-// // It returns the new object unless the function returns another object.
+// It returns the new object unless the function returns another object.
 
 // Since the bark method refers to this and bark belongs to the prototype object, you may think that this in this.weight refers to the prototype object rather than the object itself (e.g., maxi or biggie). However, that's not how this binding works. You already know those rules, so take a moment to think about what it means inside the bark method.
 
@@ -1383,7 +1383,6 @@ Dog.prototype.constructor; // [Function: Dog]
 
 // As with the instanceof operator, the constructor property lets us determine the type of an object:
 
-Copy Code
 let maxi = new Dog('Maxi', 'German Shepherd', 32);
 
 if (maxi.constructor === Dog) {
@@ -1434,7 +1433,6 @@ console.log(ninja.swingSword());//=> true;
 
 // In OOP, we often refer to individual objects of a specific data type as instances of that type. For example, in the Dog example from the Constructors with Prototypes assignment, maxi and dexter are instances of the Dog type. An instance is just another term for the objects created using any means of defining multiple objects of the same kind (e.g., dogs). The term object is more general, while instance is more specific.
 
-
 // So far, we've been using constructors to create instances of the Dog type. We can also think of objects created by factory functions as instances.
 
 // We may not be able to tell whether an arbitrary object is a dog object, but all of the objects created by createDog should be dogs. They have a type -- dog -- even if there is no way to test that in your code. Thus, they are instances of a dog type.
@@ -1461,14 +1459,11 @@ function Dog(name, breed, weight) {
 Dog.allDogs = [];
 
 // can also define static methods:
-
-Copy Code
 Dog.showSpecies = function() {
   console.log(`Dogs belong to the species ${Dog.species}`);
 };
 
 Dog.showSpecies();
-
 // Built-in Constructors
 
 // Array constructor
@@ -1482,8 +1477,6 @@ Dog.showSpecies();
 []
 
 // new Array() creates and returns a new array. That array is empty unless you also pass some arguments to the constructor. Each argument you provide gets added to the new array as an element:
-
-Copy Code
 > let numbers = new Array(1, 2, 3, 4)
 > numbers
 [ 1, 2, 3, 4 ]
@@ -1493,15 +1486,11 @@ Copy Code
 [ 'green', 'blue', 'yellow' ]
 
 // The behavior is considerably different when you provide a single number argument. In this case, the constructor creates an array with a length equal to the number specified by the argument, but with no actual elements:
-
-Copy Code
 > new Array(3)
 [ <3 empty items> ]
 // Oh this is why I was having problems when I tried to use this constructor in some problems
 
 // constructor does not accept non-integers or negative numbers:
-
-Copy Code
 > new Array(3.1415)
 => RangeError: Invalid array length
 
@@ -1512,20 +1501,14 @@ Copy Code
 [ '*', '*', '*' ]
 
 // Array lets you omit the new keyword:
-
-Copy Code
 > Array(1, 2, 3)
 [1, 2, 3]
 
 // All arrays inherit from the object referenced by this property:
-
-Copy Code
 > let numbers = [1, 2, 3]
 > Object.getPrototypeOf(numbers) === Array.prototype //=> true
 
 // arrays can use methods like forEach, map, includes, as well as all the other methods defined on Array.prototype:
-
-Copy Code
 > numbers.map(number => number * number);
 [ 1, 4, 9 ]
 
@@ -1535,8 +1518,6 @@ true
 // array type also has several static methods. We'll discuss two in this section. Remember: static methods belong directly to the constructor function; they aren't part of the prototype used to create new objects. As a result, their names don't include .prototype
 
 // he Array.isArray method takes one argument and returns true if the argument is an array object, and false if it is not:
-
-Copy Code
 > Array.isArray([])
 true
 
@@ -1547,14 +1528,10 @@ false
 false
 
 // The typeof operator returns an unexpected and somewhat useless value when used with an array:
-
-Copy Code
 > typeof []
 'object'
 
 // The Array.from method takes an array-like object as an argument and returns a new array with the equivalent element values. An array-like object is any object that has a length property.. Such objects usually have properties whose keys are non-negative integers, but that isn't a requirement. In many cases, the length property won't self-update if you add or remove properties to or from the object. In the degenerate case, all arrays are themselves array-like objects.
-
-Copy Code
 > Array.from({0: 'a', 1: 'b', 2: 'c', length: 3})
 ['a', 'b', 'c']
 
@@ -1575,29 +1552,22 @@ arrayFrom({0: 'a', 1: 'b', 2: 'c', length: 3});
 // the node list is an array-like object, so Array.from can create an array based on its content.
 
 // the Object constructor creates new objects:
-
-Copy Code
 > new Object()
 {}
-// You can invoke Object without the new keyword, just as you can omit new with the Array constructor:
 
-Copy Code
+// You can invoke Object without the new keyword, just as you can omit new with the Array constructor:
 > Object()
 {}
 
 // All objects created by the Object constructor or with object literal syntax (e.g., { a: 1, b: 2 }, inherit from Object.prototype. Thus, all such objects have access to the instance methods defined in Object.prototype. We've already seen some of these methods in action, such as Object.prototype.hasOwnProperty and Object.prototype.isPrototypeOf.
 
 // Since arrays are a subtype of objects, it should come as no surprise that all array objects have access to all the methods on Object.prototype.
-
-Copy Code
 > ['a', 'b', 'c'].hasOwnProperty(1)
 true
 
 // Almost all JavaScript objects, whether built-in or custom-created, inherit from Object.prototype, either directly or further down the prototype chain. That includes prototype objects of constructors. Note that we said "almost all"; as discussed in an earlier lesson, it is possible to create objects that don't inherit from Object.prototype.
 
 // Since toString is a method on Object.prototype, all JavaScript objects -- including arrays, functions, and dates -- inherit this method. However, the default behavior of Object.prototype.toString is not very useful; it merely returns [object Object] for objects that don't override this method to provide smarter behavior:
-
-Copy Code
 > let obj = { a: 1, b: 2 }
 > obj.toString()
 '[object Object]'   // not very helpful!
@@ -1621,51 +1591,35 @@ Object.keys
 Object.values
 
 // The Date constructor creates objects, commonly called a date object, that represent a specific date and time. Calling Date without arguments returns a date object that represents the creation date and time of the object:
-
-Copy Code
 > let now = new Date()
 > now
 2019-06-07T05:03:26.813Z
 
 // to create a date object that represents "May 1, 1983", you can write:
-
-Copy Code
 > let birthday = new Date("May 1, 1983")
 > birthday
 1983-05-01T07:00:00.000Z
 
 // The toString method returns a string that represents the date (it's pretty verbose):
-
-Copy Code
 > let now = new Date()
 > now.toString()
 'Sat Jun 01 2019 01:15:06 GMT+0500 (Pakistan Standard Time)'
 Date.prototype.getFullYear
-
 // The getFullYear method returns the year from the date as a number:
-
-Copy Code
 > now.getFullYear()
 2019
 Date.prototype.getDay
-
 // The getDay method returns a number that represents the day of the week that corresponds to the date object. The return value is 0 for Sunday, 1 for Monday, and so on until it returns 6 for Saturday.
-
-Copy Code
 > now.getDay()
 4 // (represents Thursday)
 
 // Equality for objects works by identity, however. Two objects are strictly equal only when they are the same object. Consider:
-
-Copy Code
 > let arr1 = [1, 2, 3];
 > let arr2 = arr1    // arr1 and arr2 both reference the same object
 > arr1 === [1, 2, 3] // false
 > arr1 === arr2      // true
 
 // JavaScript has two kinds of strings: string primitives and String objects. Thus far, all the strings we've created and used have been string primitives. We create string primitives by using quotes (single or double) or back-tick characters to define a string's value. To create a String object, on the other hand, we must use the String constructor:
-
-Copy Code
 > let strPrimitive = 'abc'
 > typeof strPrimitive
 'string'
@@ -1686,7 +1640,7 @@ false
 
 // As a general rule, you should not create String objects explicitly. That's where you're likely to run into problems with the distinction between string primitives and String objects. However, if you're writing code where you may have to operate on String objects, you can use String.prototype.valueOf() to retrieve the value of the String object as a primitive.
 
-// ithout the new keyword does not create an object. In the case of String, it simply returns a new string, not an object, when you omit the new keyword:
+// without the new keyword does not create an object. In the case of String, it simply returns a new string, not an object, when you omit the new keyword:
 > let str = String('abc')
 > typeof str
 'string'
@@ -1704,8 +1658,6 @@ false
 'a => a * a'
 
 // The Number and Boolean constructors work in much the same way as the String constructor. When called with new, they create Number and Boolean objects. When called without new, the Number function converts its argument to a number, and the Boolean function converts its argument to a boolean.
-
-Copy Code
 > Number('123');
 123
 
@@ -1728,8 +1680,6 @@ Array.prototype.first = function() {
 // Extending built-in objects is interesting to study, but it's best to avoid doing so. Adding a method like first to an array object can confuse other developers working on your project. It can lead to errors when other developers forget or don't realize that your array has an unexpected bonus.
 
 // Array methods, however, are surprisingly useful with String objects. We can borrow many array methods to manipulate String objects. Consider the following code:
-
-Copy Code
 let string = 'EEE';
 Array.prototype.every.call(string, char => char === 'E'); // => true
 
@@ -1770,7 +1720,7 @@ let ingredients = 'olives';
 
 // The Pseudo-Classical pattern of object creation generates objects using a constructor function that defines state, then defines shared behaviors on the constructor's prototype.
 
-// // The class syntax, a relatively new addition to JavaScript, is syntactic sugar (cleaner syntax) for creating objects that use constructors and prototypes. JavaScript classes make it look more like a classical OO language to make the transition smoother for developers who have experience working with other OO languages.
+// The class syntax, a relatively new addition to JavaScript, is syntactic sugar (cleaner syntax) for creating objects that use constructors and prototypes. JavaScript classes make it look more like a classical OO language to make the transition smoother for developers who have experience working with other OO languages.
 
 function Dog() {
 }
@@ -1786,6 +1736,7 @@ function Pet(type) {
 let dog = new Pet('dog');
 let lion = new Pet('lion');
 let cat = new Pet('cat');
+
 // Without running the code, determine the type of data that the dog, lion, and cat variables would reference if you were to run it.
 // A constructor that doesn't return an explicit value will return a new object of the type associated with the constructor, e.g., Pet. Thus, cat refers to a Pet object since the constructor doesn't return an explicit value.
 // A constructor that attempts to return an object will return an object of that type. Thus, dog refers to a Dog object since that's what the constructor tried to return.
@@ -1803,19 +1754,19 @@ let Cat = class {
   // omitted code
 };
 B
-Copy Code
+
 class Cat {
   // omitted code
 }
 C
-Copy Code
+
 console.log(
   class Cat {
     // omitted code
   }
 );
 D
-Copy Code
+
 function createClass() {
   return (
     class Cat {
@@ -1824,14 +1775,14 @@ function createClass() {
   );
 };
 
-// class Foo {
+class Foo {
   // omitted code
 }
 
 let foo = new Foo();
 // Which of the following methods of the Foo class will be called when line 5 gets invoked? Constructor
 
-// function Foo(parm) {
+function Foo(parm) {
   this.parm = parm;
 }
 
